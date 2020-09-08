@@ -1,0 +1,500 @@
+# ====================================================================================================================================================================================
+# Main System
+# ====================================================================================================================================================================================
+#
+#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# load
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+on skript load:
+    resetGameVariables()
+    resetPlayerVariables()
+    resetVoteVariables()
+#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# command
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+command /t:
+    trigger:
+        if {touhyou.now} is true:
+            if {voted.%player%} is false:
+                if {situraku.%player%} is false:
+                    open chest inventory with 3 row named "&2投票" to player
+                    set slot 11 of player's current inventory to gold ingot named "&6&l金のリンゴに投票する"
+                    set slot 13 of player's current inventory to iron ingot named "&f&l銀のリンゴに投票する"
+                    set slot 15 of player's current inventory to apple named "&c&l真実の赤リンゴに投票する"
+        else:
+            message "&c&l>Error &r現在実行できません"
+
+command /k <number>:
+    trigger:
+        if {situraku.choice} is true:
+            kyuusai({situraku.who}, player, arg-1)
+        else:
+            message "&c&l>Error &r現在実行できません"
+
+command /s:
+    trigger:
+        if {situraku.choice} is true:
+            goSituraku({situraku.who})
+        else:
+            message "&c&l>Error &r現在実行できません"
+
+command /start:
+    trigger:
+        gameStart()
+
+command /prepare:
+    trigger:
+        preparation()
+
+on inventory click:
+    if event-item is gold ingot named "&6&l金のリンゴに投票する":
+        cancel event
+        close player's inventory
+        voteGold(player)
+    if event-item is iron ingot named "&f&l銀のリンゴに投票する":
+        cancel event
+        close player's inventory
+        voteSilver(player)
+    if event-item is apple named "&c&l真実の赤リンゴに投票する":
+        cancel event
+        close player's inventory
+        voteRed(player)
+#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# function
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function resetGameVariables():
+    set {gameStatus} to 0
+    set {prepare} to false
+    set {timer.do} to false
+    set {qua.player} to 0
+    set {phase} to 1
+    set {situraku.choice} to false
+    delete {player::*}
+
+    delete {alphabet::*}
+    add "A" to {alphabet::*}
+    add "B" to {alphabet::*}
+    add "C" to {alphabet::*}
+    add "D" to {alphabet::*}
+    add "E" to {alphabet::*}
+    add "F" to {alphabet::*}
+    add "G" to {alphabet::*}
+    add "H" to {alphabet::*}
+    add "I" to {alphabet::*}
+    add "J" to {alphabet::*}
+    add "K" to {alphabet::*}
+    add "L" to {alphabet::*}
+    add "M" to {alphabet::*}
+    add "N" to {alphabet::*}
+    add "O" to {alphabet::*}
+    add "P" to {alphabet::*}
+    add "Q" to {alphabet::*}
+    add "R" to {alphabet::*}
+    add "S" to {alphabet::*}
+    add "T" to {alphabet::*}
+    add "U" to {alphabet::*}
+    add "V" to {alphabet::*}
+    add "W" to {alphabet::*}
+    add "X" to {alphabet::*}
+    add "Y" to {alphabet::*}
+    add "Z" to {alphabet::*}
+    execute console command "gamerule sendCommandFeedback false"
+    execute console command "scoreboard objectives remove money"
+    execute console command "scoreboard objectives add money dummy"
+    execute console command "scoreboard objectives modify money displayname ""所持金"""
+    execute console command "scoreboard objectives setdisplay sidebar money"
+
+function resetVoteVariables():
+    set {qua.voteGold} to 0
+    set {qua.voteSilver} to 0
+    set {qua.voteRed} to 0
+    delete {voteGold::*}
+    delete {voteSilver::*}
+    delete {voteRed::*}
+    loop all players:
+        set {voted.%loop-player%} to false
+
+function resetPlayerVariables():
+    loop all players:
+        set {money.%loop-player%} to 0
+        set {voted.%loop-player%} to false
+        set {situraku.%loop-player%} to false
+
+function gameStart():
+    if {prepare} is true:
+        set {gameStatus} to 1
+        send title "&4&l&nGame Start" to all players
+        play sound "" to all players # TODO
+        broadcast "====================================="
+        broadcast "15秒後に最初の投票が始まります"
+        broadcast "====================================="
+        set {player::*} to shuffled {player::*}
+        sidebar()
+        wait 15 seconds
+        phaseTouhyou({phase})
+
+    else:
+        broadcast "&c&l>Error &r参加者を確定して下さい"
+
+function gameEnd():
+    set {gameStatus} to 0
+    send title "&4&l&nGame End" to all players
+    play sound "" to all players # TODO
+    loop all players:
+        add "%{money.%loop-player%}%億円 - %loop-player%" to {ranking::*}
+    set {qua.rank} to amount of {ranking::*}
+    set {ranking.sorted::*} to sorted {ranking::*}
+    wait 2 seconds
+    broadcast "====================================="
+    broadcast "全13ターンが終了しました"
+    broadcast "試合結果は次のようになりました"
+    broadcast " "
+    set {loop} to {qua.rank}
+    set {loop2} to 1
+    loop {qua.rank} times:
+        broadcast "%{loop2}%位 - %{ranking.sorted::%{loop}%}%"
+        reduce {loop} by 1
+        add 1 to {loop2}
+    broadcast " "
+    broadcast "以上でゲームは終了です"
+    broadcast "====================================="
+
+# 参加者を確定ボタンで実行
+function preparation():
+    loop all players:
+        if block under loop-player is gold block:
+            add loop-player to {player::*}
+    set {qua.player} to amount of {player::*}
+    set {prepare} to true
+    broadcast "参加者を"
+    broadcast "%{player::*}%"
+    broadcast "で確定しました"
+    broadcast "変更する場合はサーバーをリロードしてください" # TODO
+
+function phaseTouhyou(n:number):
+    loop all players:
+        if {money.%loop-player%} is smaller than -5:
+            if {situraku.%loop-player%} is false:
+                situraku(loop-player)
+                stop
+    resetVoteVariables()
+    set {touhyou.now} to true
+    set {timer.do} to true
+    send title "&2&nPhase %{_n}%" with subtitle "-投票-" to all players
+    play sound "" to all players # TODO
+    broadcast "====================================="
+    broadcast "投票の時間です"
+    broadcast "/t で投票ボックスを開き、投票するリンゴを選んでください"
+    broadcast "====================================="
+
+    loop all players:
+        set {voted.%loop-player%} to false
+
+    set {qua.voted} to 0
+    set {qua.notVote} to {qua.player}
+    add 1 to {phase}
+
+
+
+function voteGold(p:player):
+    add {_p} to {voteGold::*}
+    add 1 to {qua.voteGold}
+    message "&7[Notice] &r金のリンゴへ投票しました" to {_p} # TODO
+    play sound "block.note_block.bell" to {_p}
+    add 1 to {qua.voted}
+    reduce {qua.notVote} by 1
+    set {voted.%{_p}%} to true
+    finalPlayer()
+
+function voteSilver(p:player):
+    add {_p} to {voteSilver::*}
+    add 1 to {qua.voteSilver}
+    message "&7[Notice] &r銀のリンゴへ投票しました" to {_p} # TODO
+    play sound "block.note_block.bell" to {_p}
+    add 1 to {qua.voted}
+    reduce {qua.notVote} by 1
+    set {voted.%{_p}%} to true
+    finalPlayer()
+
+function voteRed(p:player):
+    add {_p} to {voteRed::*}
+    add 1 to {qua.voteRed}
+    message "&7[Notice] &r真実の赤リンゴへ投票しました" to {_p} # TODO
+    play sound "block.note_block.bell" to {_p}
+    add 1 to {qua.voted}
+    reduce {qua.notVote} by 1
+    set {voted.%{_p}%} to true
+    finalPlayer()
+
+function finalPlayer():
+    if {qua.voted} is {qua.player}:
+        set {touhyou.now} to false
+        broadcast "====================================="
+        broadcast "全員の投票が終了しました" # TODO
+        wait 2 seconds
+        broadcast "開票しています..."
+        wait 3 seconds
+        kaihyou()
+        wait 5 seconds
+        if {phase} is 13:
+            if checkSituraku() is true:
+                stop
+            gameEnd()
+        else:
+            phaseTouhyou({phase})
+    else:
+        broadcast "&r残り &4%{qua.notVote}% &r人です" # TODO
+
+function checkSituraku() :: boolean:
+    loop all players:
+        if {money.%loop-player%} is smaller than -5:
+            situraku(loop-player)
+            return true
+        else:
+            return false
+
+function situraku(p:player):
+    broadcast "====================================="
+    broadcast "&4%{_p}% &rは負債が5億円を超えたため失楽園行きとなります"
+    broadcast "救済希望者は ""/k <救済額>"" コマンドで負債を肩代わりすることができます"
+    broadcast "救済希望者がいない場合は代表1名が ""/s"" コマンドで対象者を失楽園へ送ってください"
+    broadcast "====================================="
+    set {situraku.choice} to true
+    set {situraku.who} to {_p}
+    set {situraku.%{_p}%} to true
+
+function kyuusai(p:player, pp:player, n:number): # p:救済する人  pp:救済される人  n:救済額
+    broadcast "%{_pp}% は %{_p}% によって救済されました"
+    add {_n} to {money.%{_p}%}
+    message "&7[Notice] &r+%{_n}%億円" to {_p}
+    reduce {money.%{_pp}%} by {_n}
+    message "&7[Notice] &r-%{_n}%億円" to {_pp}
+    sidebar()
+    wait 1 second
+    phaseTouhyou({phase})
+
+function goSituraku(p:player):
+    broadcast "%{_p}% は失楽園行きとなりました"
+    set gamemode of {_p} to spectator
+    reduce {qua.player} by 1
+    wait 1 second
+    phaseTouhyou({phase})
+
+
+function addMoney1Gold():
+    set {qua} to amount of {voteGold::*}
+    set {loop} to 1
+    loop {qua} times:
+        add 1 to {money.%{voteGold::%{loop}%}%}
+        message "&7[Notice] &r+1億円" to {voteGold::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+function addMoney1Silver():
+    set {qua} to amount of {voteSilver::*}
+    set {loop} to 1
+    loop {qua} times:
+        add 1 to {money.%{voteSilver::%{loop}%}%}
+        message "&7[Notice] &r+1億円" to {voteSilver::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+function addMoney1Red():
+    set {qua} to amount of {voteRed::*}
+    set {loop} to 1
+    loop {qua} times:
+        add 1 to {money.%{voteRed::%{loop}%}%}
+        message "&7[Notice] &r+1億円" to {voteRed::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+
+function addMoney2Gold():
+    set {qua} to amount of {voteGold::*}
+    set {loop} to 1
+    loop {qua} times:
+        add 2 to {money.%{voteGold::%{loop}%}%}
+        message "&7[Notice] &r+2億円" to {voteGold::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+function addMoney2Silver():
+    set {qua} to amount of {voteSilver::*}
+    set {loop} to 1
+    loop {qua} times:
+        add 2 to {money.%{voteSilver::%{loop}%}%}
+        message "&7[Notice] &r+2億円" to {voteSilver::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+function addMoney2Red():
+    set {qua} to amount of {voteRed::*}
+    set {loop} to 1
+    loop {qua} times:
+        add 2 to {money.%{voteRed::%{loop}%}%}
+        message "&7[Notice] &r+2億円" to {voteRed::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+
+function redMoney1Gold():
+    set {qua} to amount of {voteGold::*}
+    set {loop} to 1
+    loop {qua} times:
+        reduce {money.%{voteGold::%{loop}%}%} by 1
+        message "&7[Notice] &r-1億円" to {voteGold::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+function redMoney1Silver():
+    set {qua} to amount of {voteSilver::*}
+    set {loop} to 1
+    loop {qua} times:
+        reduce {money.%{voteSilver::%{loop}%}%} by 1
+        message "&7[Notice] &r-1億円" to {voteSilver::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+function redMoney1Red():
+    set {qua} to amount of {voteRed::*}
+    set {loop} to 1
+    loop {qua} times:
+        reduce {money.%{voteRed::%{loop}%}%} by 1
+        message "&7[Notice] &r-1億円" to {voteRed::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+
+function redMoney10Gold():
+    set {qua} to amount of {voteGold::*}
+    set {loop} to 1
+    loop {qua} times:
+        reduce {money.%{voteGold::%{loop}%}%} by 10
+        message "&7[Notice] &r-10億円" to {voteGold::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+function redMoney10Silver():
+    set {qua} to amount of {voteSilver::*}
+    set {loop} to 1
+    loop {qua} times:
+        reduce {money.%{voteSilver::%{loop}%}%} by 10
+        message "&7[Notice] &r-10億円" to {voteSilver::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+function redMoney10Red():
+    set {qua} to amount of {voteRed::*}
+    set {loop} to 1
+    loop {qua} times:
+        reduce {money.%{voteRed::%{loop}%}%} by 10
+        message "&7[Notice] &r-10億円" to {voteRed::%{loop}%}
+        add 1 to {loop}
+    sidebar()
+
+function kaihyou():
+    broadcast " "
+    broadcast "&6&l[結果]"
+    broadcast "金のリンゴ ： %{qua.voteGold}%個  ｜  銀のリンゴ ： %{qua.voteSilver}%個  ｜  真実の赤リンゴ ： %{qua.voteRed}%個"
+    broadcast " "
+    # 誰も赤リンゴ入れてないよ
+    if {qua.voteRed} is 0:
+
+        # 引き分けやんけ
+        if {qua.voteGold} is {qua.voteSilver}:
+            broadcast "引き分けです"
+            stop
+
+        # 全員金や
+        if {qua.voteGold} is {qua.player}:
+            broadcast "全員が金のリンゴに投票しました"
+            broadcast "全員が1億円を失います"
+            loop all players:
+                reduce {money.%loop-player%} by 1
+                message "&7[Notice] &r-1億円" to loop-player
+            sidebar()
+            stop
+
+        # 全員銀や
+        if {qua.voteSilver} is {qua.player}:
+            broadcast "全員が銀のリンゴに投票しました"
+            broadcast "全員が1億円を失います"
+            loop all players:
+                reduce {money.%loop-player%} by 1
+                message "&7[Notice] &r-1億円" to loop-player
+            sidebar()
+            stop
+
+        # 金が多いわ
+        if {qua.voteGold} is larger than {qua.voteSilver}:
+            broadcast "金のリンゴがより多くの票を得ました"
+            broadcast "金のリンゴ投票者に1億円が与えられます"
+            addMoney1Gold()
+            redMoney1Silver()
+            stop
+
+        # 銀が多いわ
+        if {qua.voteSilver} is larger than {qua.voteGold}:
+            broadcast "銀のリンゴがより多くの票を得ました"
+            broadcast "銀のリンゴ投票者に1億円が与えられます"
+            addMoney1Silver()
+            redMoney1Gold()
+            stop
+
+        else:
+            broadcast "&c&l>Error &runexpected error occurred (code:ET01)."
+            stop
+
+    # 誰かしら赤リンゴ入れたよ
+    else:
+
+        # 引き分けやんけ
+        if {qua.voteGold} is {qua.voteSilver}:
+            if {qua.voteRed} is {qua.voteSilver}:
+                broadcast "引き分けです"
+                stop
+
+        # 全員赤リンゴや
+        if {qua.voteRed} is {qua.player}:
+            broadcast "全員が真実の赤リンゴに投票しました"
+            broadcast "全員が1億円を得ます"
+            loop all players:
+                add 1 to {money.%loop-player%}
+                message "&7[Notice] &r+1億円" to loop-player
+            sidebar()
+            stop
+
+        # 金が一票だけかつ銀はなし
+        if {qua.voteGold} is 1:
+            if {qua.voteSilver} is 0:
+                broadcast "金のリンゴの得票数が1でした"
+                broadcast "金のリンゴ投票者が2億円を得ます"
+                addMoney2Gold()
+                stop
+
+        # 銀が一票だけかつ金はなし
+        if {qua.voteSilver} is 1:
+            if {qua.voteGold} is 0:
+                broadcast "銀のリンゴの得票数が1でした"
+                broadcast "銀のリンゴ投票者が2億円を得ます"
+                addMoney2Silver()
+                stop
+
+        # 赤が一票だけや
+        if {qua.voteRed} is 1:
+            broadcast "真実の赤リンゴの得票数が1でした"
+            broadcast "真実の赤リンゴ投票者は10億円を失います"
+            redMoney10Red()
+            stop
+
+        # 赤が一番多いや(上記以外で
+        if {qua.voteRed} is larger than {qua.voteGold}:
+            if {qua.voteRed} is larger than {qua.voteSilver}:
+                broadcast "真実の赤リンゴがより多く票を得ました"
+                broadcast "金・銀のリンゴ投票者が1億円を得ます"
+                addMoney1Gold()
+                addMoney1Silver()
+                redMoney1Red()
+            stop
+
+        else:
+            broadcast "&c&l>Error &runexpected error occurred (code:ET02)."
+            stop
+
+function sidebar():
+    set {_loop} to 1
+    loop {qua.player} times:
+        execute console command "scoreboard players set %{alphabet::%{_loop}%}% money %{money.%{player::%{_loop}%}%}%"
+        add 1 to {_loop}
