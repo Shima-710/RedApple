@@ -6,15 +6,15 @@ authors: [ShimaShima_710]
 description: RedApple Installer
 website: https://twitter.com/ShimaShima_710
 commands:
-  rai-check:
+  check:
     description: Check install status.
     permission: rai.check
     permission-message: You don't have permission:<permission>.
-  rai-install:
+  install:
     description: Install.
     permission: rai.install
     permission-message: You don't have permission:<permission>.
-  rai-update:
+  update:
     description: Update.
     permission: rai.update
     permission-message: You don't have permission:<permission>.

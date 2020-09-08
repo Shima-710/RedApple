@@ -129,7 +129,7 @@ public final class Redapple extends JavaPlugin {
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
         // hoc-check
-        if(cmd.getName().equalsIgnoreCase("rai-check")){
+        if(cmd.getName().equalsIgnoreCase("check")){
             if (sender instanceof Player) {
                 if (checkInstallStatus()){
                     sender.sendMessage(ChatColor.GREEN + ">RAI [INFO] " + ChatColor.WHITE + "RedApple is already installed!");
@@ -147,7 +147,7 @@ public final class Redapple extends JavaPlugin {
             return true;
         }
         // hoc-install
-        else if(cmd.getName().equalsIgnoreCase("rai-install")){
+        else if(cmd.getName().equalsIgnoreCase("install")){
             if (sender instanceof Player) {
                 sender.sendMessage(ChatColor.RED + ">RAI [ERROR] " + ChatColor.WHITE + "Do this command on console!");
                 return false;
@@ -161,7 +161,7 @@ public final class Redapple extends JavaPlugin {
             }
         }
         // hoc-update
-        else if(cmd.getName().equalsIgnoreCase("rai-update")){
+        else if(cmd.getName().equalsIgnoreCase("update")){
             if (sender instanceof Player) {
                 sender.sendMessage(ChatColor.RED + ">RAI [ERROR] " + ChatColor.WHITE + "Do this command on console!");
                 return false;
