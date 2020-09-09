@@ -15,18 +15,6 @@ on skript load:
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # command
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-command /t:
-    trigger:
-        if {touhyou.now} is true:
-            if {voted.%player%} is false:
-                if {situraku.%player%} is false:
-                    open chest inventory with 3 row named "&2投票" to player
-                    set slot 11 of player's current inventory to gold ingot named "&6&l金のリンゴに投票する"
-                    set slot 13 of player's current inventory to iron ingot named "&f&l銀のリンゴに投票する"
-                    set slot 15 of player's current inventory to apple named "&c&l真実の赤リンゴに投票する"
-        else:
-            message "&c&l>Error &r現在実行できません"
-
 command /k <number>:
     trigger:
         if {situraku.choice} is true:
@@ -65,18 +53,18 @@ on inventory click:
 
 on right click on diamond ore:
     if {touhyou.now} is true:
-            if {voted.%player%} is false:
-                if {situraku.%player%} is false:
-                    open chest inventory with 3 row named "&2投票" to player
-                    set slot 11 of player's current inventory to gold ingot named "&6&l金のリンゴに投票する"
-                    set slot 13 of player's current inventory to iron ingot named "&f&l銀のリンゴに投票する"
-                    set slot 15 of player's current inventory to apple named "&c&l真実の赤リンゴに投票する"
-                else:
-                    message "&c&l>Error &r現在実行できません"
+        if {voted.%player%} is false:
+            if {situraku.%player%} is false:
+                open chest inventory with 3 row named "&2投票" to player
+                set slot 11 of player's current inventory to gold ingot named "&6&l金のリンゴに投票する"
+                set slot 13 of player's current inventory to iron ingot named "&f&l銀のリンゴに投票する"
+                set slot 15 of player's current inventory to apple named "&c&l真実の赤リンゴに投票する"
             else:
-                message "&c&l>Error &r投票済みです"
+                message "&c&l>Error &r現在実行できません"
         else:
-            message "&c&l>Error &r現在実行できません"
+            message "&c&l>Error &r投票済みです"
+    else:
+        message "&c&l>Error &r現在実行できません"
 #
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # function
