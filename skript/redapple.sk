@@ -61,6 +61,21 @@ on inventory click:
         cancel event
         close player's inventory
         voteRed(player)
+
+on right click on diamond ore:
+    if {touhyou.now} is true:
+            if {voted.%player%} is false:
+                if {situraku.%player%} is false:
+                    open chest inventory with 3 row named "&2投票" to player
+                    set slot 11 of player's current inventory to gold ingot named "&6&l金のリンゴに投票する"
+                    set slot 13 of player's current inventory to iron ingot named "&f&l銀のリンゴに投票する"
+                    set slot 15 of player's current inventory to apple named "&c&l真実の赤リンゴに投票する"
+                else:
+                    message "&c&l>Error &r現在実行できません"
+            else:
+                message "&c&l>Error &r投票済みです"
+        else:
+            message "&c&l>Error &r現在実行できません"
 #
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # function
@@ -72,6 +87,7 @@ function resetGameVariables():
     set {qua.player} to 0
     set {phase} to 1
     set {situraku.choice} to false
+    set {touhyou.now} to false
     delete {player::*}
 
     delete {alphabet::*}
@@ -127,7 +143,6 @@ function gameStart():
     if {prepare} is true:
         set {gameStatus} to 1
         send title "&4&l&nGame Start" to all players
-        play sound "" to all players # TODO
         broadcast "====================================="
         broadcast "15秒後に最初の投票が始まります"
         broadcast "====================================="
@@ -142,7 +157,6 @@ function gameStart():
 function gameEnd():
     set {gameStatus} to 0
     send title "&4&l&nGame End" to all players
-    play sound "" to all players # TODO
     loop all players:
         add "%{money.%loop-player%}%億円 - %loop-player%" to {ranking::*}
     set {qua.rank} to amount of {ranking::*}
@@ -170,9 +184,9 @@ function preparation():
     set {qua.player} to amount of {player::*}
     set {prepare} to true
     broadcast "参加者を"
-    broadcast "%{player::*}%"
+    broadcast "&l%{player::*}%"
     broadcast "で確定しました"
-    broadcast "変更する場合はサーバーをリロードしてください" # TODO
+    broadcast "変更する場合はサーバーをリロードしてください"
 
 function phaseTouhyou(n:number):
     loop all players:
@@ -184,10 +198,9 @@ function phaseTouhyou(n:number):
     set {touhyou.now} to true
     set {timer.do} to true
     send title "&2&nPhase %{_n}%" with subtitle "-投票-" to all players
-    play sound "" to all players # TODO
     broadcast "====================================="
     broadcast "投票の時間です"
-    broadcast "/t で投票ボックスを開き、投票するリンゴを選んでください"
+    broadcast "投票部屋でダイヤモンド鉱石を右クリックし、投票するリンゴを選んでください"
     broadcast "====================================="
 
     loop all players:
@@ -202,7 +215,7 @@ function phaseTouhyou(n:number):
 function voteGold(p:player):
     add {_p} to {voteGold::*}
     add 1 to {qua.voteGold}
-    message "&7[Notice] &r金のリンゴへ投票しました" to {_p} # TODO
+    message "&7[Notice] &r金のリンゴへ投票しました" to {_p}
     play sound "block.note_block.bell" to {_p}
     add 1 to {qua.voted}
     reduce {qua.notVote} by 1
@@ -212,7 +225,7 @@ function voteGold(p:player):
 function voteSilver(p:player):
     add {_p} to {voteSilver::*}
     add 1 to {qua.voteSilver}
-    message "&7[Notice] &r銀のリンゴへ投票しました" to {_p} # TODO
+    message "&7[Notice] &r銀のリンゴへ投票しました" to {_p}
     play sound "block.note_block.bell" to {_p}
     add 1 to {qua.voted}
     reduce {qua.notVote} by 1
@@ -222,7 +235,7 @@ function voteSilver(p:player):
 function voteRed(p:player):
     add {_p} to {voteRed::*}
     add 1 to {qua.voteRed}
-    message "&7[Notice] &r真実の赤リンゴへ投票しました" to {_p} # TODO
+    message "&7[Notice] &r真実の赤リンゴへ投票しました" to {_p}
     play sound "block.note_block.bell" to {_p}
     add 1 to {qua.voted}
     reduce {qua.notVote} by 1
@@ -233,20 +246,20 @@ function finalPlayer():
     if {qua.voted} is {qua.player}:
         set {touhyou.now} to false
         broadcast "====================================="
-        broadcast "全員の投票が終了しました" # TODO
+        broadcast "全員の投票が終了しました"
         wait 2 seconds
         broadcast "開票しています..."
         wait 3 seconds
         kaihyou()
         wait 5 seconds
-        if {phase} is 13:
+        if {phase} is 14:
             if checkSituraku() is true:
                 stop
             gameEnd()
         else:
             phaseTouhyou({phase})
     else:
-        broadcast "&r残り &4%{qua.notVote}% &r人です" # TODO
+        broadcast "&r残り &4%{qua.notVote}% &r人です"
 
 function checkSituraku() :: boolean:
     loop all players:
@@ -387,7 +400,7 @@ function redMoney10Red():
 function kaihyou():
     broadcast " "
     broadcast "&6&l[結果]"
-    broadcast "金のリンゴ ： %{qua.voteGold}%個  ｜  銀のリンゴ ： %{qua.voteSilver}%個  ｜  真実の赤リンゴ ： %{qua.voteRed}%個"
+    broadcast "&r金のリンゴ ： &4%{qua.voteGold}%&r個  ｜  銀のリンゴ ： &4%{qua.voteSilver}%&r個  ｜  真実の赤リンゴ ： &4%{qua.voteRed}%&r個"
     broadcast " "
     # 誰も赤リンゴ入れてないよ
     if {qua.voteRed} is 0:
