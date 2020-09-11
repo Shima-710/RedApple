@@ -1,6 +1,6 @@
 # RedApple
 
-[Homepage](https://shimashima.studio.design/project/redapple)
+[[Homepage] Natto.](https://shimashima.studio.design/project/redapple)
 
 ## Developing environment
 
