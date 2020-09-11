@@ -1,10 +1,9 @@
 name: RAI
 version: ${project.version}
-main: com.github.shima710.rai.Rai
+main: com.github.shima170.redapple.Redapple
 api-version: 1.15
-depend: [ Skript ]
-authors: [ ShimaShima_710 ]
-description: RedApple installer.
+authors: [ShimaShima_710]
+description: RedApple Installer
 website: https://twitter.com/ShimaShima_710
 commands:
   check:
