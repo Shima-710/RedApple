@@ -1,5 +1,7 @@
 # RedApple
 
+Latest Update : 11/09/2020 | Written by ShimaShima_710
+
 [[Homepage] Natto.](https://shimashima.studio.design/project/redapple)
 
 ## Developing environment
