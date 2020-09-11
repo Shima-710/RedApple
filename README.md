@@ -1,10 +1,8 @@
 # RedApple
 
-[HomePage](https://shimashima.studio.design/project/redapple)
+[Homepage](https://shimashima.studio.design/project/redapple)
 
-### Developing environment
-
----
+## Developing environment
 
 **OS** : 
 
