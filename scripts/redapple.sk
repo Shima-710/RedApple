@@ -4,7 +4,7 @@
 #
 # =================================================================
 #
-# v2.1.0
+# v2.1.1
 #
 # -----------------------------------------------------------------
 # load
@@ -66,6 +66,16 @@ command /ra-help:
 # -----------------------------------------------------------------
 # events
 # -----------------------------------------------------------------
+on join:
+    if {gameStatus} is 1:
+        if {play.%player%} is not true:
+            set {play.%player%} to false
+            set player's gamemode to spectator
+
+on damage:
+    if {gameStatus} is 1:
+        cancel event
+
 on inventory click:
     if event-item is gold ingot named "&6&l金のリンゴに投票する":
         cancel event
@@ -111,6 +121,8 @@ function resetGameVariables():
     set {situraku.choice} to false
     set {touhyou.now} to false
     delete {player::*}
+    delete {ranking::*}
+    delete {ranking.sorted::*}
     delete {alphabet::*}
     add "A" to {alphabet::*}
     add "B" to {alphabet::*}
@@ -160,6 +172,8 @@ function resetPlayerVariables():
         set {voted.%loop-player%} to false
         set {situraku.%loop-player%} to false
         set {play.%loop-player%} to false
+        if loop-player's gamemode is spectator:
+            set loop-player's gamemode to adventure
 
 function gameStart():
     if {prepare} is true:
@@ -169,6 +183,11 @@ function gameStart():
         broadcast "15秒後に最初の投票が始まります" # TODO configで開始前時間を設定できるようにする？ としても，configにするような内容が他にあるのか...最大Phase・失楽園送りになる額・
         broadcast "====================================="
         set {player::*} to shuffled {player::*}
+        loop all players:
+            if {play.%loop-player%} is false:
+                set loop-player's gamemode to spectator
+            else:
+                set loop-player's gamemode to adventure
         sidebar()
         wait 15 seconds
         phaseTouhyou({phase})
@@ -196,8 +215,18 @@ function gameEnd():
         reduce {loop} by 1
         add 1 to {loop2}
     broadcast " "
+    broadcast "また、各アルファベットは次のプレイヤーでした"
+    broadcast " "
+    set {_loop} to 1
+    loop {qua.player} times:
+        broadcast "%{alphabet::%{_loop}%}% - %{player::%{_loop}%}%"
+        add 1 to {_loop}
+    broadcast " "
     broadcast "以上でゲームは終了です"
     broadcast "====================================="
+    resetGameVariables()
+    resetPlayerVariables()
+    resetVoteVariables()
 
 # 参加者を確定ボタンで実行
 function preparation():
