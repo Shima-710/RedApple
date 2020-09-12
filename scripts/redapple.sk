@@ -4,7 +4,7 @@
 #
 # =================================================================
 #
-# v2.0.0
+# v2.1.0
 #
 # -----------------------------------------------------------------
 # load
@@ -19,15 +19,21 @@ on skript load:
 # -----------------------------------------------------------------
 command /k <number>:
     trigger:
-        if {situraku.choice} is true:
-            kyuusai({situraku.who}, player, arg-1)
+        if {play.%player%} is true:
+            if {situraku.choice} is true:
+                kyuusai({situraku.who}, player, arg-1)
+            else:
+                message "&c&l>Error &r現在実行できません"
         else:
             message "&c&l>Error &r現在実行できません"
 
 command /s:
     trigger:
-        if {situraku.choice} is true:
-            goSituraku({situraku.who})
+        if {play.%player%} is true:
+            if {situraku.choice} is true:
+                goSituraku({situraku.who})
+            else:
+                message "&c&l>Error &r現在実行できません"
         else:
             message "&c&l>Error &r現在実行できません"
 
@@ -75,18 +81,21 @@ on inventory click:
         voteRed(player)
 
 on right click on diamond ore:
-    if {touhyou.now} is true:
-        if {voted.%player%} is false:
-            if {situraku.%player%} is false:
-                open chest inventory with 3 row named "&2投票" to player
-                play sound "block.chest.open" to player # FIXME 音名合ってる？
-                set slot 11 of player's current inventory to gold ingot named "&6&l金のリンゴに投票する"
-                set slot 13 of player's current inventory to iron ingot named "&f&l銀のリンゴに投票する"
-                set slot 15 of player's current inventory to apple named "&c&l真実の赤リンゴに投票する"
+    if {play.%player%} is true:
+        if {touhyou.now} is true:
+            if {voted.%player%} is false:
+                if {situraku.%player%} is false:
+                    open chest inventory with 3 row named "&2投票" to player
+                    play sound "block.chest.open" to player # FIXME 音名合ってる？
+                    set slot 11 of player's current inventory to gold ingot named "&6&l金のリンゴに投票する"
+                    set slot 13 of player's current inventory to iron ingot named "&f&l銀のリンゴに投票する"
+                    set slot 15 of player's current inventory to apple named "&c&l真実の赤リンゴに投票する"
+                else:
+                    message "&c&l>Error &r現在実行できません"
             else:
-                message "&c&l>Error &r現在実行できません"
+                message "&c&l>Error &r投票済みです"
         else:
-            message "&c&l>Error &r投票済みです"
+            message "&c&l>Error &r現在実行できません"
     else:
         message "&c&l>Error &r現在実行できません"
 #
@@ -150,6 +159,7 @@ function resetPlayerVariables():
         set {money.%loop-player%} to 0
         set {voted.%loop-player%} to false
         set {situraku.%loop-player%} to false
+        set {play.%loop-player%} to false
 
 function gameStart():
     if {prepare} is true:
@@ -170,7 +180,8 @@ function gameEnd():
     set {gameStatus} to 0
     send title "&4&l&nGame End" to all players
     loop all players:
-        add "%{money.%loop-player%}%億円 - %loop-player%" to {ranking::*}
+        if {play.%loop-player%} is true:
+            add "%{money.%loop-player%}%億円 - %loop-player%" to {ranking::*}
     set {qua.rank} to amount of {ranking::*}
     set {ranking.sorted::*} to sorted {ranking::*}
     wait 2 seconds
@@ -193,6 +204,7 @@ function preparation():
     loop all players:
         if block under loop-player is gold block:
             add loop-player to {player::*}
+            set {play.%loop-player%} to true
     set {qua.player} to amount of {player::*}
     set {prepare} to true
     broadcast "参加者を"
@@ -202,10 +214,11 @@ function preparation():
 
 function phaseTouhyou(n:number):
     loop all players:
-        if {money.%loop-player%} is smaller than -5:
-            if {situraku.%loop-player%} is false:
-                situraku(loop-player)
-                stop
+        if {play.%loop-player%} is true:
+            if {money.%loop-player%} is smaller than -5:
+                if {situraku.%loop-player%} is false:
+                    situraku(loop-player)
+                    stop
     resetVoteVariables()
     set {touhyou.now} to true
     set {timer.do} to true
@@ -275,9 +288,12 @@ function finalPlayer():
 
 function checkSituraku() :: boolean:
     loop all players:
-        if {money.%loop-player%} is smaller than -5:
-            situraku(loop-player)
-            return true
+        if {play.%loop-player%} is true:
+            if {money.%loop-player%} is smaller than -5:
+                situraku(loop-player)
+                return true
+            else:
+                return false
         else:
             return false
 
@@ -431,8 +447,9 @@ function kaihyou():
             broadcast "全員が1億円を失います"
             broadcast "====================================="
             loop all players:
-                reduce {money.%loop-player%} by 1
-                message "&7&l>Notice &r-1億円" to loop-player
+                if {play.%loop-player%} is true:
+                    reduce {money.%loop-player%} by 1
+                    message "&7&l>Notice &r-1億円" to loop-player
             sidebar()
             stop
 
@@ -442,8 +459,9 @@ function kaihyou():
             broadcast "全員が1億円を失います"
             broadcast "====================================="
             loop all players:
-                reduce {money.%loop-player%} by 1
-                message "&7&l>Notice &r-1億円" to loop-player
+                if {play.%loop-player%} is true:
+                    reduce {money.%loop-player%} by 1
+                    message "&7&l>Notice &r-1億円" to loop-player
             sidebar()
             stop
 
@@ -486,8 +504,9 @@ function kaihyou():
             broadcast "全員が1億円を得ます"
             broadcast "====================================="
             loop all players:
-                add 1 to {money.%loop-player%}
-                message "&7&l>Notice &r+1億円" to loop-player
+                if {play.%loop-player%} is true:
+                    add 1 to {money.%loop-player%}
+                    message "&7&l>Notice &r+1億円" to loop-player
             sidebar()
             stop
 
