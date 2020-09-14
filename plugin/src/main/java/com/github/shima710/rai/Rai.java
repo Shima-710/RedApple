@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public final class Rai extends JavaPlugin {
+public final class Rai extends JavaPlugin{
 
     // RAIフォルダ内のredapple.skの文字列・ファイル・パス
     public static String strRaiScript = "./plugins/RAI/redapple.sk";
@@ -64,6 +64,7 @@ public final class Rai extends JavaPlugin {
         // ダウンロード状態=RAI内にskファイルが存するかどうかをbooleanでリターン
         return fileRaiScript.exists();
     }
+
 
     public static void install() throws IOException {
         // インストールされていれば当メソッドを抜ける
@@ -140,4 +141,5 @@ public final class Rai extends JavaPlugin {
         }
         return false;
     }
+
 }
