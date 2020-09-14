@@ -28,6 +28,7 @@ public final class Rai extends JavaPlugin{
     @Override
     public void onEnable() {
         getLogger().info("Hello!! Enabling Complete! v2.0.0");
+        getServer().getPluginManager().registerEvents(new r2j(this), this);
 
         // インストール状態をチェック
         if (checkInstallStatus()){
