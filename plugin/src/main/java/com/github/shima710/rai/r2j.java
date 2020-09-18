@@ -19,17 +19,14 @@ import java.util.Iterator;
 public class r2j implements Listener{
 
     public static Rai plugin;
-
-    public r2j(Rai instance) {
-        plugin = instance;
-    }
+    public r2j(Rai instance) { plugin = instance; }
 
     // GoogleAPI
     static final String GOOGLE_API = "http://www.google.com/transliterate?langpair=ja-Hira|ja&text=";
 
 
     @EventHandler
-    public static void onChat(AsyncPlayerChatEvent event) throws IOException {
+    public static void r2j(AsyncPlayerChatEvent event) throws IOException {
         // contentR=変換前ローマ字文字列
         String contentR = event.getMessage();
 
