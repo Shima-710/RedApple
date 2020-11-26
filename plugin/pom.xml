@@ -6,7 +6,7 @@
 
     <groupId>com.github.shima-710</groupId>
     <artifactId>rai</artifactId>
-    <version>2.2.0-beta</version>
+    <version>2.3</version>
     <packaging>jar</packaging>
 
     <name>RAI</name>
