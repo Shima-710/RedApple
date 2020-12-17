@@ -5,17 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.shima-710</groupId>
-    <artifactId>RedApple</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>rai</artifactId>
+    <version>2.3</version>
     <packaging>jar</packaging>
 
-    <name>RedApple</name>
+    <name>RAI</name>
 
-    <description>RedApple plugin</description>
+    <description>RedApple Installer</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <url>https://twitter.com/ShimaShima_710</url>
 
     <build>
         <plugins>
@@ -68,8 +69,15 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>67.1</version>
+        </dependency>
+
     </dependencies>
 </project>
