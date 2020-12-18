@@ -4,7 +4,7 @@
 #
 # =================================================================
 #
-# v2.3
+# v3.0.1
 #
 # -----------------------------------------------------------------
 # load
@@ -25,7 +25,7 @@ command /k <number>:
             else:
                 message "&c&l>Error &r現在実行できません"
         else:
-            message "&c&l>Error &r現在実行できません"
+            message "&c&l>Error &r現在実行できません. 参加者ではありません."
 
 command /s:
     trigger:
@@ -35,7 +35,7 @@ command /s:
             else:
                 message "&c&l>Error &r現在実行できません"
         else:
-            message "&c&l>Error &r現在実行できません"
+            message "&c&l>Error &r現在実行できません. 参加者ではありません."
 
 command /start:
     trigger:
@@ -254,7 +254,7 @@ function preparation():
     set {qua.player} to amount of {player::*}
     set {prepare} to true
     broadcast "参加者を"
-    broadcast "&l%{player::*}%"
+    broadcast "&e&l%{player::*}%"
     broadcast "で確定しました"
     broadcast "変更する場合はサーバーをリロードしてください"
     set {actbar.gameStatus} to "&6&l準備完了"
@@ -275,7 +275,7 @@ function phaseTouhyou(n:number):
     set {actbar.gameStatus} to "&6&l投票"
     send title "&2&nPhase %{_n}%" with subtitle "-投票-" to all players
     broadcast "====================================="
-    broadcast "投票の時間です"
+    broadcast "&4&l投票&rの時間です"
     broadcast "投票部屋でダイヤモンド鉱石を右クリックし、投票するリンゴを選んでください"
     broadcast "====================================="
 
@@ -336,7 +336,7 @@ function finalPlayer():
         else:
             phaseTouhyou({phase})
     else:
-        broadcast "&r残り &4%{qua.notVote}% &r人です"
+        broadcast "&r残り &4&l%{qua.notVote}% &r人です"
 
 function checkSituraku() :: boolean:
     loop all players:
@@ -352,7 +352,7 @@ function checkSituraku() :: boolean:
 function situraku(p:player):
     set {actbar.gameStatus} to "&6&l失楽園議論"
     broadcast "====================================="
-    broadcast "&4%{_p}% &rは負債が5億円を超えたため失楽園行きとなります"
+    broadcast "&4&l%{_p}% &rは負債が5億円を超えたため失楽園行きとなります"
     broadcast "救済希望者は ""/k <救済額>"" コマンドで負債を肩代わりすることができます"
     broadcast "救済希望者がいない場合は代表1名が ""/s"" コマンドで対象者を失楽園へ送ってください"
     broadcast "====================================="
@@ -483,7 +483,7 @@ function redMoney10Red():
 function kaihyou():
     broadcast "====================================="
     broadcast "&6&l[結果]"
-    broadcast "&r金のリンゴ ： &4%{qua.voteGold}%&r個  ｜  銀のリンゴ ： &4%{qua.voteSilver}%&r個  ｜  真実の赤リンゴ ： &4%{qua.voteRed}%&r個"
+    broadcast "&r金のリンゴ ： &4&l%{qua.voteGold}% &r個  ｜  銀のリンゴ ： &4&l%{qua.voteSilver}% &r個  ｜  真実の赤リンゴ ： &4&l%{qua.voteRed}% &r個"
     broadcast " "
     # 誰も赤リンゴ入れてないよ
     if {qua.voteRed} is 0:
