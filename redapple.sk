@@ -544,6 +544,14 @@ function kaihyou():
     # 誰かしら赤リンゴ入れたよ
     else:
 
+        # 赤が一票だけや
+        if {qua.voteRed} is 1:
+            broadcast "真実の赤リンゴの得票数が1でした"
+            broadcast "真実の赤リンゴ投票者は10億円を失います"
+            broadcast "====================================="
+            redMoney10Red()
+            stop
+
         # 引き分けやんけ
         if {qua.voteGold} is {qua.voteSilver}:
             if {qua.voteRed} is {qua.voteSilver}:
@@ -581,13 +589,7 @@ function kaihyou():
                 addMoney2Silver()
                 stop
 
-        # 赤が一票だけや
-        if {qua.voteRed} is 1:
-            broadcast "真実の赤リンゴの得票数が1でした"
-            broadcast "真実の赤リンゴ投票者は10億円を失います"
-            broadcast "====================================="
-            redMoney10Red()
-            stop
+
 
         # 赤が一番多いや(上記以外で
         if {qua.voteRed} is larger than {qua.voteGold}:
