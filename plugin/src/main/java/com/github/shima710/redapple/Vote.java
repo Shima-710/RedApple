@@ -47,7 +47,7 @@ public class Vote implements Listener {
     }
 
     public static void vote(String color, Player player){
-        if(checkVotable(player)){//FIXME なぜか投票済みだよ
+        if(checkVotable(player)){
             RedApple.quaVoted++;
             switch (color) {
                 case "red":
