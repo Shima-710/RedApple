@@ -28,6 +28,7 @@ public final class RedApple extends JavaPlugin{
     public static String playerBox[][] = new String[26][];
     public static Boolean gameStatus = false;
     public static Boolean siturakuChoise = false;
+    public static Boolean exiSituraku = false;
     public static Boolean preparing = false;
     public static Boolean voting = false;
     public static Boolean finAllVote = false;

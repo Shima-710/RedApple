@@ -20,21 +20,28 @@ public class Vote implements Listener {
     public static void phaseVote(int n){
         for(Player p :RedApple.gamePlayer){
             if(Situraku.checkSituraku(p)){
+                RedApple.exiSituraku = true;
+                Situraku.situraku(p);
                 break;
             }
+            else{
+                RedApple.exiSituraku = false;
+            }
         }
-        resetVote();
-        for(Player pl:Bukkit.getOnlinePlayers()){
-            pl.sendTitle("Phase" + n,"投票",40,60,40);
-            pl.sendMessage(RedApple.separateBar);
-            pl.sendMessage("投票の時間です");
-            pl.sendMessage("投票部屋でダイヤモンド鉱石を右クリックし、投票するリンゴを選んでください");
-            pl.sendMessage("制限時間は "+ChatColor.DARK_RED+RedApple.voteTime+ChatColor.WHITE+" 秒です");
-            pl.sendMessage(RedApple.separateBar);
+        if(!RedApple.exiSituraku){
+            resetVote();
+            for(Player pl:Bukkit.getOnlinePlayers()){
+                pl.sendTitle("Phase" + n,"投票",40,60,40);
+                pl.sendMessage(RedApple.separateBar);
+                pl.sendMessage("投票の時間です");
+                pl.sendMessage("投票部屋でダイヤモンド鉱石を右クリックし、投票するリンゴを選んでください");
+                pl.sendMessage("制限時間は "+ChatColor.DARK_RED+RedApple.voteTime+ChatColor.WHITE+" 秒です");
+                pl.sendMessage(RedApple.separateBar);
+            }
+            RedApple.phase += 1;
+            RedApple.voting = true;
+            new Timer(plugin,RedApple.voteTime,true).runTaskTimer(plugin, 10,20);
         }
-        RedApple.phase += 1;
-        RedApple.voting = true;
-        new Timer(plugin,RedApple.voteTime,true).runTaskTimer(plugin, 10,20);
     }
 
     public static void openVoteBox(Player player){
