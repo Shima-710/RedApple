@@ -44,6 +44,9 @@ public final class RedApple extends JavaPlugin{
     public static int yetVote;
     public static int quaGamePlayer;
     public static int quaVoted;
+    public static int quaVoteRed;
+    public static int quaVoteSilver;
+    public static int quaVoteGold;
     public static final ItemStack redApple = new ItemStack(Material.APPLE,1) ;
     public static final ItemStack silverApple = new ItemStack(Material.IRON_INGOT,1) ;
     public static final ItemStack goldApple = new ItemStack(Material.GOLD_INGOT,1) ;

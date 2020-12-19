@@ -103,6 +103,9 @@ public class Vote implements Listener {
     }
 
     public static void openVote(){
+        RedApple.quaVoteRed = RedApple.voteRed.size();
+        RedApple.quaVoteSilver = RedApple.voteSilver.size();
+        RedApple.quaVoteGold = RedApple.voteGold.size();
 
 
 
@@ -145,6 +148,9 @@ public class Vote implements Listener {
         RedApple.situraku = new ArrayList<>();
         RedApple.voting = false;
         RedApple.quaVoted = 0;
+        RedApple.quaVoteRed = 0;
+        RedApple.quaVoteSilver = 0;
+        RedApple.quaVoteGold = 0;
         RedApple.yetVote = 0;
     }
 }
