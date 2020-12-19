@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Event implements Listener {
     public static RedApple plugin;
@@ -42,10 +43,12 @@ public class Event implements Listener {
     public void onRightClick(PlayerInteractEvent e){
         if(RedApple.gameStatus) {
             Player player = e.getPlayer();
-            Block block = e.getClickedBlock();
-            assert block != null;
-            if(block.getType().equals(Material.DIAMOND_ORE)){
-                Vote.openVoteBox(player);
+            if(!Objects.requireNonNull(e.getClickedBlock()).isEmpty()){
+                Block block = e.getClickedBlock();
+                assert block != null;
+                if(block.getType().equals(Material.DIAMOND_ORE)){
+                    Vote.openVoteBox(player);
+                }
             }
         }
     }
