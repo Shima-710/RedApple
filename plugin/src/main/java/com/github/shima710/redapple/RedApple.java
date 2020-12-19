@@ -13,6 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +58,7 @@ public final class RedApple extends JavaPlugin{
     public static final ItemStack redApple = new ItemStack(Material.APPLE,1) ;
     public static final ItemStack silverApple = new ItemStack(Material.IRON_INGOT,1) ;
     public static final ItemStack goldApple = new ItemStack(Material.GOLD_INGOT,1) ;
+    public static Objective objective;
 
 
     public static void makePlayerBox(){
@@ -78,6 +83,10 @@ public final class RedApple extends JavaPlugin{
         Objects.requireNonNull(getCommand("k")).setExecutor(command);
         Objects.requireNonNull(getCommand("s")).setExecutor(command);
         Objects.requireNonNull(getCommand("ra-help")).setExecutor(command);
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        assert manager != null;
+        Scoreboard board = manager.getMainScoreboard();
+        objective = board.registerNewObjective("test", "dummy","所持金");
 
 
         saveDefaultConfig();
