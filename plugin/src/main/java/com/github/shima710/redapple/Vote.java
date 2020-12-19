@@ -116,9 +116,137 @@ public class Vote implements Listener {
             p.sendMessage(" ");
         }
 
+        if(RedApple.quaVoteRed==0){
+            if(RedApple.quaVoteGold == RedApple.quaVoteSilver){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("引き分けです");
+                    p.sendMessage(RedApple.separateBar);
+                }
+            }
+            else if(RedApple.quaVoteGold == RedApple.quaVoted){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("全員が金のりんごへ投票しました");
+                    p.sendMessage("全員"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円を失います");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteSilver,1,false);
+                changeMoney(RedApple.voteGold,1,false);
+            }
+            else if(RedApple.quaVoteSilver == RedApple.quaVoted){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("全員が銀のりんごへ投票しました");
+                    p.sendMessage("全員"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円を失います");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteSilver,1,false);
+                changeMoney(RedApple.voteGold,1,false);
+            }
+            else if(RedApple.quaVoteSilver < RedApple.quaVoteGold){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("金のりんごがより多くの票を集めました");
+                    p.sendMessage("金のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteGold,1,true);
+            }
+            else {//FIXME always true? ma?　あ，この上までで条件分岐させてるから？あたまよ？
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("銀のりんごがより多くの票を集めました");
+                    p.sendMessage("銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteSilver,1,true);
+            }
+        }
+        else{
+            if(RedApple.quaVoteRed == 1){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("真実の赤りんごの得票数が1でした");
+                    p.sendMessage("真実の赤りんご投票者は"+ChatColor.DARK_RED+ChatColor.BOLD+" 10 "+ChatColor.WHITE+"億円を失います");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteRed,10,false);
+            }
+            else if(RedApple.quaVoteGold == RedApple.quaVoteSilver){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("引き分けです");
+                    p.sendMessage(RedApple.separateBar);
+                }
+            }
+            else if(RedApple.quaVoteRed == RedApple.quaVoted){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("全員が真実の赤りんごへ投票しました");
+                    p.sendMessage("全員に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteRed,1, true);
+            }
+            else if(RedApple.quaVoteGold == 1 && RedApple.quaVoteSilver == 0){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("一人のみが金のりんごへ，その他全員は真実の赤りんごへ投票しました");
+                    p.sendMessage("金のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 2 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteGold,2, true);
+            }
+            else if(RedApple.quaVoteSilver == 1 && RedApple.quaVoteGold == 0){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("一人のみが銀のりんごへ，その他全員は真実の赤りんごへ投票しました");
+                    p.sendMessage("銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 2 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteSilver,2, true);
+            }
+            else if(RedApple.quaVoteSilver < RedApple.quaVoteRed && RedApple.quaVoteGold < RedApple.quaVoteRed){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("真実の赤りんごがより多くの票を集めました");
+                    p.sendMessage("金・銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteSilver,1, true);
+                changeMoney(RedApple.voteGold,1, true);
+            }
+            else if(RedApple.quaVoteGold == RedApple.quaVoteRed){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("引き分けです");
+                    p.sendMessage(RedApple.separateBar);
+                }
+            }
+            else if(RedApple.quaVoteSilver == RedApple.quaVoteRed){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("引き分けです");
+                    p.sendMessage(RedApple.separateBar);
+                }
+            }
+            else{
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage(ChatColor.RED + ">ERROR " + ChatColor.WHITE + "Unexpected error occurred.Please Report this with server logs.");
+                    p.sendMessage(ChatColor.RED + ">ERROR " + ChatColor.WHITE + "予期せぬエラーが発生しました．サーバーログと一緒に開発者へ報告してください．");
+                    p.sendMessage(RedApple.separateBar);
+                }
+            }
+        }
 
         RedApple.opening = true;
         new Timer(plugin,3,false).runTaskTimer(plugin, 10,20);
+    }
+
+    public static void changeMoney(List<Player> list, int money,Boolean add){
+        for(Player p:RedApple.gamePlayer){//ゲームプレイヤー全員でfor
+            if(list.contains(p)){//そいつが指定のリストにいれば
+                for(int i=0;i<26;i++){//playerBox内でfor
+                    if(RedApple.playerBox[i][1].equals(p.getName())){//playerBox内で名前が一致する箱を見つけたら
+                        int nm = Integer.parseInt(RedApple.playerBox[i][2]);//nm=now money をplayerBox[任意位置][所持金]
+                        if(add){
+                            RedApple.playerBox[i][2] = String.valueOf(nm + money);//所持金更新
+                        }
+                        else{
+                            RedApple.playerBox[i][2] = String.valueOf(nm - money);//所持金更新
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static Boolean checkVotable(Player player){
