@@ -17,11 +17,27 @@ public class Commands implements CommandExecutor {
         }
         else if (cmd.getName().equalsIgnoreCase("k")) {
             if (sender instanceof Player) {
-                // プレイヤーが実行
                 Player player = (Player) sender;
-                if (args.length != 0) {
-                    // 引数がある
-
+                if (args.length == 1) {
+                    String str = args[0];
+                    boolean isNumeric = true;
+                    for (int i = 0; i < str.length(); i++) {
+                        if (!Character.isDigit(str.charAt(i))) {
+                            isNumeric = false;
+                        }
+                    }
+                    if(isNumeric){
+                        int gaku = Integer.parseInt(str);
+                        if(RedApple.siturakuChoise){
+                            Situraku.kyuusai(player,RedApple.siturakuWho,gaku);
+                        }
+                        else{
+                            sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "救済対象者がいません");
+                        }
+                    }
+                    else {
+                        sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "数値を正しく入力してください");
+                    }
                 }
                 else{
                     sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "数値を正しく入力してください");
@@ -33,6 +49,12 @@ public class Commands implements CommandExecutor {
             return true;
         }
         else if (cmd.getName().equalsIgnoreCase("s")) {
+            if(RedApple.siturakuChoise){
+                Situraku.goSituraku(RedApple.siturakuWho);
+            }
+            else{
+                sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "対象者がいません");
+            }
             return true;
         }
         return false;

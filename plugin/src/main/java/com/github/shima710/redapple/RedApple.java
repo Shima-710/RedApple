@@ -34,6 +34,7 @@ public final class RedApple extends JavaPlugin{
     public static Boolean finAllVote = false;
     public static Boolean ending = false;
     public static Boolean opening = false;
+    public static Player siturakuWho;
     public static List<Player> gamePlayer = new ArrayList<>();
     public static List<Player> voted = new ArrayList<>();
     public static List<Player> voteRed = new ArrayList<>();
@@ -80,7 +81,6 @@ public final class RedApple extends JavaPlugin{
 
 
         saveDefaultConfig();
-        Config.load();
         SystemMain.resetGame();
 
 

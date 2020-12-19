@@ -54,10 +54,23 @@ public class SystemMain implements Listener {
     }
 
     public static void gameEnd(){
+        for(Player p:Bukkit.getOnlinePlayers()){
+            p.sendMessage(RedApple.separateBar);
+            p.sendMessage("全ターンが終了しました");
+            p.sendMessage("試合結果は次のようになりました");
+            p.sendMessage("　");
+        }
+        for(int i=0; i<RedApple.quaGamePlayer; i++){
+            for(Player pl:Bukkit.getOnlinePlayers()){
+                pl.sendMessage(""+ChatColor.DARK_BLUE+ChatColor.BOLD+RedApple.playerBox[i][0]+ChatColor.WHITE+" - "+ChatColor.DARK_RED+ChatColor.BOLD+RedApple.playerBox[1][2]+ChatColor.WHITE+" 億円 - "+ChatColor.GOLD+RedApple.playerBox[i][1]);
+            }
+        }
+        for(Player p:Bukkit.getOnlinePlayers()){
+            p.sendMessage("　");
+            p.sendMessage("以上でゲームを終了します");
+            p.sendMessage(RedApple.separateBar);
+        }
         resetGame();
-
-
-
     }
 
     public static void resetGame(){

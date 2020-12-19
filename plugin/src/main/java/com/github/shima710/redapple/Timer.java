@@ -57,7 +57,7 @@ public class Timer extends BukkitRunnable{
                 RedApple.ending = false;
             }
             else if(RedApple.opening){
-                Vote.endVote();
+                Vote.phaseVote(RedApple.phase);
                 RedApple.opening = false;
             }
             this.cancel();

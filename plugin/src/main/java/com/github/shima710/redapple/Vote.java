@@ -29,18 +29,23 @@ public class Vote implements Listener {
             }
         }
         if(!RedApple.exiSituraku){
-            resetVote();
-            for(Player pl:Bukkit.getOnlinePlayers()){
-                pl.sendTitle("Phase" + n,"投票",40,60,40);
-                pl.sendMessage(RedApple.separateBar);
-                pl.sendMessage("投票の時間です");
-                pl.sendMessage("投票部屋でダイヤモンド鉱石を右クリックし、投票するリンゴを選んでください");
-                pl.sendMessage("制限時間は "+ChatColor.DARK_RED+RedApple.voteTime+ChatColor.WHITE+" 秒です");
-                pl.sendMessage(RedApple.separateBar);
+            if(RedApple.phase!=RedApple.maxPhase){
+                resetVote();
+                for(Player pl:Bukkit.getOnlinePlayers()){
+                    pl.sendTitle("Phase" + n,"投票",40,60,40);
+                    pl.sendMessage(RedApple.separateBar);
+                    pl.sendMessage("投票の時間です");
+                    pl.sendMessage("投票部屋でダイヤモンド鉱石を右クリックし、投票するリンゴを選んでください");
+                    pl.sendMessage("制限時間は "+ChatColor.DARK_RED+RedApple.voteTime+ChatColor.WHITE+" 秒です");
+                    pl.sendMessage(RedApple.separateBar);
+                }
+                RedApple.phase += 1;
+                RedApple.voting = true;
+                new Timer(plugin,RedApple.voteTime,true).runTaskTimer(plugin, 10,20);
             }
-            RedApple.phase += 1;
-            RedApple.voting = true;
-            new Timer(plugin,RedApple.voteTime,true).runTaskTimer(plugin, 10,20);
+            else{
+                SystemMain.gameEnd();
+            }
         }
     }
 
@@ -103,14 +108,6 @@ public class Vote implements Listener {
     }
 
 
-    public static void endVote(){
-        if(RedApple.phase==RedApple.maxPhase){
-            SystemMain.gameEnd();
-        }
-        else{
-            phaseVote(RedApple.phase);
-        }
-    }
 
     public static void openVote(){
         RedApple.quaVoteRed = RedApple.voteRed.size();
@@ -259,17 +256,23 @@ public class Vote implements Listener {
     public static Boolean checkVotable(Player player){
         if(RedApple.gameStatus) { //ゲーム中
             if (RedApple.gamePlayer.contains(player)) { //参加者
-                if (!RedApple.voted.contains(player)) { // 未投票
-                    if (RedApple.voting) { // 投票可能時間
-                        return true;
+                if(RedApple.situraku.contains(player)){ //失楽園
+                    if (!RedApple.voted.contains(player)) { // 未投票
+                        if (RedApple.voting) { // 投票可能時間
+                            return true;
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + ">ERROR " + ChatColor.WHITE + "現在投票可能時間ではありません");
+                            return false;
+                        }
                     }
                     else {
-                        player.sendMessage(ChatColor.RED + ">ERROR " + ChatColor.WHITE + "現在投票可能時間ではありません");
+                        player.sendMessage(ChatColor.RED + ">ERROR " + ChatColor.WHITE + "既に投票済みです");
                         return false;
                     }
                 }
-                else {
-                    player.sendMessage(ChatColor.RED + ">ERROR " + ChatColor.WHITE + "既に投票済みです");
+                else{
+                    player.sendMessage(ChatColor.RED + ">ERROR " + ChatColor.WHITE + "あなたは現在失楽園にいます");
                     return false;
                 }
             }
