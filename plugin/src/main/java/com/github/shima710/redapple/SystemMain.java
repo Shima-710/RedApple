@@ -22,7 +22,7 @@ public class SystemMain implements Listener {
         for(Player p:Bukkit.getOnlinePlayers()){
             p.setHealth(20.0);
             p.setFoodLevel(20);
-            if(p.getLocation().add(0,-0.1,0).getBlock().getType().equals(Material.GOLD_BLOCK)) {
+            if(p.getGameMode().equals(GameMode.ADVENTURE) || p.getGameMode().equals(GameMode.SURVIVAL)) {
                 p.setGameMode(GameMode.ADVENTURE);
                 RedApple.gamePlayer.add(p);
                 RedApple.quaGamePlayer++;
