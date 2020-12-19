@@ -1,1 +1,4 @@
 # config
+VoteTime: 10
+MaxPhase: 3
+PrepareTime: 5

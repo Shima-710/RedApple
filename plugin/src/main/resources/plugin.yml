@@ -4,3 +4,30 @@ main: com.github.shima710.redapple.RedApple
 api-version: 1.16
 authors: [ ShimaShima_710 ]
 description: RedApple plugin
+commands:
+  start:
+    description: Start game.
+    permission: redapple.start
+    permission-message: You don't have permission.
+  k:
+    description: Kyuusai.
+    usage: /<command> [number]
+    permission: redapple.k
+    permission-message: You don't have permission.
+  s:
+    description: Situraku.
+    permission: redapple.s
+    permission-message: You don't have permission.
+  ra-help:
+    description: Show RedApple help.
+    permission: redapple.ra-help
+    permission-message: You don't have permission.
+permissions:
+  redapple.start:
+    default: op
+  redapple.k:
+    default: true
+  redapple.s:
+    default: true
+  redapple.ra-help:
+    default: true
