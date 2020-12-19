@@ -23,8 +23,9 @@ public final class RedApple extends JavaPlugin{
     public static String version = RedApple.class.getPackage().getImplementationVersion();
 
     BukkitTask task = null;
-    public static final String[] apl = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+    public static final String alp[] = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
     public static final String separateBar = "===================================================";
+    public static String playerBox[][] = new String[26][];
     public static Boolean gameStatus = false;
     public static Boolean siturakuChoise = false;
     public static Boolean preparing = false;
@@ -51,6 +52,15 @@ public final class RedApple extends JavaPlugin{
     public static final ItemStack redApple = new ItemStack(Material.APPLE,1) ;
     public static final ItemStack silverApple = new ItemStack(Material.IRON_INGOT,1) ;
     public static final ItemStack goldApple = new ItemStack(Material.GOLD_INGOT,1) ;
+
+
+    public static void makePlayerBox(){
+        for(int i=0; i<26; i++){
+            playerBox[i] = new String[3];
+            playerBox[i][0] = RedApple.alp[i];
+            playerBox[i][2] = "0";
+        }
+    }
 
 
     @Override

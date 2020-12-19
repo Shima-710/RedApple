@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SystemMain implements Listener {
@@ -35,6 +36,10 @@ public class SystemMain implements Listener {
         for(Player pl:RedApple.gamePlayer){
             disp.add(pl.getName());
         }
+        for(int i=0; i<RedApple.quaGamePlayer; i++){
+            RedApple.playerBox[i][1] = String.valueOf(disp.get(i));
+        }
+        Bukkit.getLogger().info(""+ Arrays.deepToString(RedApple.playerBox));
         for(Player p:Bukkit.getOnlinePlayers()){
             p.sendMessage(RedApple.separateBar);
             p.sendMessage("参加者は");
@@ -63,6 +68,7 @@ public class SystemMain implements Listener {
         RedApple.quaGamePlayer = 0;
         Vote.resetVote();
         Config.load();
+        RedApple.makePlayerBox();
     }
 
 
