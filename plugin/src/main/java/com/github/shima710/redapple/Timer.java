@@ -28,13 +28,21 @@ public class Timer extends BukkitRunnable{
      */
     public void run()
     {
-        count--;
+
         if(expBar){
             for(Player p: Bukkit.getOnlinePlayers()) {
             p.sendExperienceChange(0, count);
             }
         }
-
+        if(RedApple.finAllVote){
+            RedApple.finAllVote = false;
+            RedApple.ending = true;
+            for(Player p: Bukkit.getOnlinePlayers()) {
+                p.sendExperienceChange(0, 0);
+            }
+            this.cancel();
+            new Timer(plg,3, false).runTaskTimer(plg, 10,20);
+        }
         if (count == 0){
             if(RedApple.preparing){
                 Vote.phaseVote(1);
@@ -52,13 +60,8 @@ public class Timer extends BukkitRunnable{
                 Vote.endVote();
                 RedApple.opening = false;
             }
+            this.cancel();
         }
-        else if (count >= 0) {
-            if(!RedApple.finAllVote){
-                // 途中終了の可能性があるタイマーはここでキャンセル
-                this.cancel();
-            }
-            new Timer(plg, count, expBar).runTaskLater(plg, 20);
-        }
+        count--;
     }
 }

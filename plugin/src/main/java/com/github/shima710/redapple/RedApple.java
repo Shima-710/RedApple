@@ -22,7 +22,7 @@ public final class RedApple extends JavaPlugin{
     public static RedApple plugin = null;
     public static String version = RedApple.class.getPackage().getImplementationVersion();
 
-
+    BukkitTask task = null;
     public static final String[] apl = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
     public static final String separateBar = "===================================================";
     public static Boolean gameStatus = false;

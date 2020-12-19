@@ -34,7 +34,7 @@ public class Vote implements Listener {
         }
         RedApple.phase += 1;
         RedApple.voting = true;
-        new Timer(plugin,RedApple.voteTime+1,true).runTaskLater(plugin, 0);
+        new Timer(plugin,RedApple.voteTime,true).runTaskTimer(plugin, 10,20);
     }
 
     public static void openVoteBox(Player player){
@@ -73,8 +73,7 @@ public class Vote implements Listener {
                     p.sendMessage("開票しています...");
                     p.sendMessage(RedApple.separateBar);
                 }
-                RedApple.ending = true;
-                new Timer(plugin,6, false).runTaskLater(plugin, 0);
+                // ここから先はTimerのif(finAllVote)へ飛ぶ
             }
             else{
                 for(Player p:Bukkit.getOnlinePlayers()){
@@ -93,7 +92,7 @@ public class Vote implements Listener {
             p.sendMessage(RedApple.separateBar);
         }
         RedApple.ending = true;
-        new Timer(plugin,6,false).runTaskLater(plugin, 0);
+        new Timer(plugin,3,false).runTaskTimer(plugin, 10,20);
     }
 
 
@@ -119,7 +118,7 @@ public class Vote implements Listener {
 
 
         RedApple.opening = true;
-        new Timer(plugin,6,false).runTaskLater(plugin, 0);
+        new Timer(plugin,3,false).runTaskTimer(plugin, 10,20);
     }
 
     public static Boolean checkVotable(Player player){
