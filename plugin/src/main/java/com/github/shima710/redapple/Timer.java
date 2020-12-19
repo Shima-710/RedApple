@@ -9,16 +9,18 @@ import org.bukkit.scheduler.BukkitTask;
 public class Timer extends BukkitRunnable{
     private final RedApple plg;
     private int count;
+    private Boolean expBar;
 
     /**
      * コンストラクタ
      * @param plg_ プラグインメインクラスのインスタンス
      * @param count_ 表示する値
      */
-    public Timer(RedApple plg_, int count_)
+    public Timer(RedApple plg_, int count_, Boolean expBar_)
     {
         plg = plg_;
         count = count_;
+        expBar = expBar_;
     }
 
     /**
@@ -27,9 +29,12 @@ public class Timer extends BukkitRunnable{
     public void run()
     {
         count--;
-        for(Player p: Bukkit.getOnlinePlayers()) {
+        if(expBar){
+            for(Player p: Bukkit.getOnlinePlayers()) {
             p.sendExperienceChange(0, count);
+            }
         }
+
         if (count == 0){
             if(RedApple.preparing){
                 Vote.phaseVote(1);
@@ -49,7 +54,11 @@ public class Timer extends BukkitRunnable{
             }
         }
         else if (count >= 0) {
-            new Timer(plg, count).runTaskLater(plg, 20);
+            if(!RedApple.finAllVote){
+                // 途中終了の可能性があるタイマーはここでキャンセル
+                this.cancel();
+            }
+            new Timer(plg, count, expBar).runTaskLater(plg, 20);
         }
     }
 }

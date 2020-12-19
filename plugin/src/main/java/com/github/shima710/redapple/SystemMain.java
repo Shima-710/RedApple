@@ -45,7 +45,7 @@ public class SystemMain implements Listener {
             p.sendMessage(RedApple.separateBar);
         }
         RedApple.preparing = true;
-        new Timer(plugin,RedApple.prepareTime+1).runTaskLater(plugin, 0);
+        new Timer(plugin,RedApple.prepareTime+1,true).runTaskLater(plugin, 0);
     }
 
     public static void gameEnd(){

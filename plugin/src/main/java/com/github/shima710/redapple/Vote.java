@@ -34,7 +34,7 @@ public class Vote implements Listener {
         }
         RedApple.phase += 1;
         RedApple.voting = true;
-        new Timer(plugin,RedApple.voteTime+1).runTaskLater(plugin, 0);
+        new Timer(plugin,RedApple.voteTime+1,true).runTaskLater(plugin, 0);
     }
 
     public static void openVoteBox(Player player){
@@ -64,10 +64,9 @@ public class Vote implements Listener {
                     break;
             }
             RedApple.yetVote = RedApple.quaGamePlayer - RedApple.quaVoted;
-            for(Player p:Bukkit.getOnlinePlayers()){
-                p.sendMessage("残り "+ChatColor.DARK_RED+RedApple.yetVote+ChatColor.WHITE+" 人です");
-            }
             if(RedApple.yetVote==0){
+                RedApple.voting = false;
+                RedApple.finAllVote = true;
                 for(Player p:Bukkit.getOnlinePlayers()){
                     p.sendMessage(RedApple.separateBar);
                     p.sendMessage("投票が終了しました");
@@ -75,7 +74,12 @@ public class Vote implements Listener {
                     p.sendMessage(RedApple.separateBar);
                 }
                 RedApple.ending = true;
-                new Timer(plugin,6).runTaskLater(plugin, 0);
+                new Timer(plugin,6, false).runTaskLater(plugin, 0);
+            }
+            else{
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("残り "+ChatColor.DARK_RED+RedApple.yetVote+ChatColor.WHITE+" 人です");
+                }
             }
         }
 
@@ -89,7 +93,7 @@ public class Vote implements Listener {
             p.sendMessage(RedApple.separateBar);
         }
         RedApple.ending = true;
-        new Timer(plugin,6).runTaskLater(plugin, 0);
+        new Timer(plugin,6,false).runTaskLater(plugin, 0);
     }
 
 
@@ -106,17 +110,22 @@ public class Vote implements Listener {
         RedApple.quaVoteRed = RedApple.voteRed.size();
         RedApple.quaVoteSilver = RedApple.voteSilver.size();
         RedApple.quaVoteGold = RedApple.voteGold.size();
-
+        for(Player p:Bukkit.getOnlinePlayers()){
+            p.sendMessage(RedApple.separateBar);
+            p.sendMessage(""+ChatColor.GOLD+ChatColor.BOLD+"[結果]");
+            p.sendMessage("金のリンゴ ： "+ChatColor.DARK_RED+ChatColor.BOLD+RedApple.quaVoteGold+ChatColor.WHITE+" 個  ｜  銀のリンゴ ： "+ChatColor.DARK_RED+ChatColor.BOLD+RedApple.quaVoteSilver+ChatColor.WHITE+" 個  ｜  真実の赤リンゴ ： "+ChatColor.DARK_RED+ChatColor.BOLD+RedApple.quaVoteRed+ChatColor.WHITE+" 個");
+            p.sendMessage(" ");
+        }
 
 
         RedApple.opening = true;
-        new Timer(plugin,6).runTaskLater(plugin, 0);
+        new Timer(plugin,6,false).runTaskLater(plugin, 0);
     }
 
     public static Boolean checkVotable(Player player){
         if(RedApple.gameStatus) { //ゲーム中
             if (RedApple.gamePlayer.contains(player)) { //参加者
-                if (RedApple.voted.contains(player)) { // 未投票
+                if (!RedApple.voted.contains(player)) { // 未投票
                     if (RedApple.voting) { // 投票可能時間
                         return true;
                     }
@@ -147,6 +156,7 @@ public class Vote implements Listener {
         RedApple.voteGold = new ArrayList<>();
         RedApple.situraku = new ArrayList<>();
         RedApple.voting = false;
+        RedApple.finAllVote = false;
         RedApple.quaVoted = 0;
         RedApple.quaVoteRed = 0;
         RedApple.quaVoteSilver = 0;

@@ -29,6 +29,7 @@ public final class RedApple extends JavaPlugin{
     public static Boolean siturakuChoise = false;
     public static Boolean preparing = false;
     public static Boolean voting = false;
+    public static Boolean finAllVote = false;
     public static Boolean ending = false;
     public static Boolean opening = false;
     public static List<Player> gamePlayer = new ArrayList<>();
@@ -73,7 +74,6 @@ public final class RedApple extends JavaPlugin{
 
 
         getLogger().info("Hello! Current version is v" + version);
-
     }
 
     @Override
