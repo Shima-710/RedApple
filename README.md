@@ -1,23 +1,27 @@
 # RedApple
 
-Latest Update : 11/09/2020 | Written by ShimaShima_710
+```
+Latest Update : 20/12/2020 | Written by ShimaShima_710
+```
+## Overview
 
-[Homepage] [Natto.](https://shimashima.studio.design/project/redapple)
+ **RedApple**
 
-## Developing environment
+About me : [Official Site](https://wikipedico.studio.site)
 
-**OS** : 
+Organizer : [iibukuro](https://twitter.com/_ibukuro_)
 
-macOS 10.15.5 Catalina
+Developer : [ShimaShima_710](https://twitter.com/ShimaShima_710)
 
-**Language** :
+## Specification
 
-Java (JDK1.8 - 1.8.0_221)
+Minecraft Version : Minecraft Java Edition 1.16.4
 
-Skript 2.4.1
+Supported Server : Spigot-1.16.4
 
-**IDE** :
+## Dev. Environment
+OS : macOS 11.1 Big Sur
 
-InteliJ IDEA CE
+Language : Java (Java8 1.8.0_261)
 
-Visual Studio Code
+Project Management : Apache Maven
