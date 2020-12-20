@@ -3,21 +3,20 @@
 Read me
 
 =================================================================
-
 Hello, Thank you for download!
-This is README.
-
 =================================================================
 Configuration
 =================================================================
 
-
-
-
-
-
+PrepareTime : 試合開始までの準備時間
+VoteTime : 投票フェーズの制限時間
+MaxPhase : 最大フェーズ数
 
 =================================================================
+Help
 =================================================================
-All rights belong to ShimaShima_710 (GitHub:Shima-710 / Twitter:@ShimaShima_710)
-©2020 ShimaShima_710
+
+TwitterまたはGitHubまで
+
+=================================================================
+All rights belong to ShimaShima_710 (Twitter:@ShimaShima_710 / GitHub:Shima-710)

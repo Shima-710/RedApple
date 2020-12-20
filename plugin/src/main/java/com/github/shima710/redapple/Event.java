@@ -15,6 +15,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.awt.*;
+
 
 public class Event implements Listener {
     public static RedApple plugin;
@@ -24,8 +26,16 @@ public class Event implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
+        Player player = e.getPlayer();
+        player.sendMessage(ChatColor.DARK_RED+RedApple.separateBar);
+        player.sendMessage("");
+        player.sendMessage(""+ChatColor.DARK_RED+ChatColor.BOLD+" RedApple"+ChatColor.DARK_RED+"  -エデンの園ゲーム-");
+        player.sendMessage("");
+        player.sendMessage(ChatColor.DARK_RED+"  [ Ver. ] : "+ChatColor.DARK_RED+"v"+RedApple.version);
+        player.sendMessage(ChatColor.DARK_RED+"  [ Wiki ] : "+ChatColor.DARK_RED+ChatColor.UNDERLINE+"https://wikipedico.studio.site/#updates");
+        player.sendMessage("");
+        player.sendMessage(ChatColor.DARK_RED+RedApple.separateBar);
         if(RedApple.gameStatus) {
-            Player player = e.getPlayer();
             if (!RedApple.gamePlayer.contains(player)) {
                 player.sendMessage(ChatColor.GREEN + ">GAME " + ChatColor.WHITE + "ゲーム中のため観戦モードに移行しました");
                 player.setGameMode(GameMode.SPECTATOR);

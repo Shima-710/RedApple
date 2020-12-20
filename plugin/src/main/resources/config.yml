@@ -1,4 +1,4 @@
-# config
+# RedApple - configuration
+PrepareTime: 15
 VoteTime: 300
 MaxPhase: 13
-PrepareTime: 15
