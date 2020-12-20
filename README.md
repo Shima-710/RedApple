@@ -7,7 +7,7 @@ Latest Update : 20/12/2020 | Written by ShimaShima_710
 
  **RedApple**
 
-About me : [Official Site](https://wikipedico.studio.site)
+About me : [Wikipedia](https://ja.wikipedia.org/wiki/LIAR_GAME_(テレビドラマ)#エデンの園ゲームのルール)
 
 Organizer : [iibukuro](https://twitter.com/_ibukuro_)
 
