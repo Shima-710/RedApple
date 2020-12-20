@@ -230,7 +230,7 @@ public class Vote implements Listener {
                 }
             }
         }
-
+        SystemMain.refreshSidebar();
         RedApple.opening = true;
         new Timer(plugin,3,false).runTaskTimer(plugin, 10,20);
     }
@@ -238,7 +238,7 @@ public class Vote implements Listener {
     public static void changeMoney(List<Player> list, int money,Boolean add){
         for(Player p:RedApple.gamePlayer){//ゲームプレイヤー全員でfor
             if(list.contains(p)){//そいつが指定のリストにいれば
-                for(int i=0;i<26;i++){//playerBox内でfor
+                for(int i=0;i<RedApple.quaGamePlayer;i++){//playerBox内でfor
                     if(RedApple.playerBox[i][1].equals(p.getName())){//playerBox内で名前が一致する箱を見つけたら
                         int nm = Integer.parseInt(RedApple.playerBox[i][2]);//nm=now money をplayerBox[任意位置][所持金]
                         if(add){
@@ -256,7 +256,7 @@ public class Vote implements Listener {
     public static Boolean checkVotable(Player player){
         if(RedApple.gameStatus) { //ゲーム中
             if (RedApple.gamePlayer.contains(player)) { //参加者
-                if(RedApple.situraku.contains(player)){ //失楽園
+                if(!RedApple.situraku.contains(player)){ //失楽園
                     if (!RedApple.voted.contains(player)) { // 未投票
                         if (RedApple.voting) { // 投票可能時間
                             return true;

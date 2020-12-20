@@ -86,7 +86,7 @@ public final class RedApple extends JavaPlugin{
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         assert manager != null;
         Scoreboard board = manager.getMainScoreboard();
-        objective = board.registerNewObjective("test", "dummy","所持金");
+        objective = board.registerNewObjective("rasidebardum", "dummy","所持金");
 
 
         saveDefaultConfig();
@@ -99,5 +99,6 @@ public final class RedApple extends JavaPlugin{
     @Override
     public void onDisable() {
         getLogger().info("Goodbye!");
+        objective.unregister();
     }
 }

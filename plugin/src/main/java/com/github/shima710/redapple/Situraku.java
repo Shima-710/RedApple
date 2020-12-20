@@ -11,7 +11,7 @@ public class Situraku implements Listener {
     public Situraku(RedApple instance) { plugin = instance; }
 
     public static boolean checkSituraku(Player player){
-        for(int i=0;i<26;i++){//playerBox内でfor
+        for(int i=0;i<RedApple.quaGamePlayer;i++){//playerBox内でfor
             if(RedApple.playerBox[i][1].equals(player.getName())){//playerBox内で名前が一致する箱を見つけたら
                 if(Integer.parseInt(RedApple.playerBox[i][2])<=-5){//-5以下なら
                     return true;
@@ -52,6 +52,7 @@ public class Situraku implements Listener {
                 RedApple.playerBox[i][2] = String.valueOf(nm + num);//所持金更新
             }
         }
+        SystemMain.refreshSidebar();
         Vote.phaseVote(RedApple.phase);
     }
 
@@ -64,5 +65,6 @@ public class Situraku implements Listener {
         }
         player.setGameMode(GameMode.SPECTATOR);
         RedApple.situraku.add(player);
+        Vote.phaseVote(RedApple.phase);
     }
 }

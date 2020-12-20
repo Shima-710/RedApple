@@ -104,7 +104,7 @@ public class SystemMain implements Listener {
     public static void refreshSidebar(){
         RedApple.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         for(int i=0; i<RedApple.quaGamePlayer; i++){
-            Score score = RedApple.objective.getScore(ChatColor.GREEN + RedApple.playerBox[i][0] +":");
+            Score score = RedApple.objective.getScore(ChatColor.GREEN + RedApple.playerBox[i][0] +" :");
             score.setScore(Integer.parseInt(RedApple.playerBox[i][2]));
         }
 
