@@ -1,19 +1,10 @@
 package com.github.shima710.redapple;
 
-import jdk.nashorn.internal.ir.Block;
-import jdk.nashorn.internal.objects.NativeFloat32Array;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -26,12 +17,11 @@ public final class RedApple extends JavaPlugin{
     public static RedApple plugin = null;
     public static String version = RedApple.class.getPackage().getImplementationVersion();
 
-    BukkitTask task = null;
-    public static final String alp[] = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+    public static final String[] alp = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
     public static final String separateBar = "===================================================";
-    public static String playerBox[][] = new String[26][];
+    public static String[][] playerBox = new String[26][];
     public static Boolean gameStatus = false;
-    public static Boolean siturakuChoise = false;
+    public static Boolean siturakuChoice = false;
     public static Boolean exiSituraku = false;
     public static Boolean preparing = false;
     public static Boolean voting = false;
@@ -93,7 +83,7 @@ public final class RedApple extends JavaPlugin{
         SystemMain.resetGame();
 
 
-        getLogger().info("Hello! Current version is v" + version);
+        getLogger().info("Hello!");
     }
 
     @Override

@@ -29,12 +29,12 @@ public class Situraku implements Listener {
             p.sendMessage("救済希望者がいない場合は代表一名が \"/s\" コマンドで対象者を失楽園へ送ってください");
             p.sendMessage(RedApple.separateBar);
         }
-        RedApple.siturakuChoise = true;
+        RedApple.siturakuChoice = true;
         RedApple.siturakuWho = player;
     }
 
     public static void kyuusai(Player player, Player player2, Integer num){//するひとされるひときんがく
-        RedApple.siturakuChoise = false;
+        RedApple.siturakuChoice = false;
         RedApple.siturakuWho = null;
         for(Player p: Bukkit.getOnlinePlayers()){
             p.sendMessage(RedApple.separateBar);

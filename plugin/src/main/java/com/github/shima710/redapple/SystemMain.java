@@ -3,8 +3,6 @@ package com.github.shima710.redapple;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -34,17 +32,17 @@ public class SystemMain implements Listener {
             }
         }
         RedApple.quaGamePlayer = RedApple.gamePlayer.size();
-        List<String> disp = new ArrayList<String>();
+        List<String> disp = new ArrayList<>();
         for(Player pl:RedApple.gamePlayer){
             disp.add(pl.getName());
         }
-        Bukkit.getLogger().info("シャッフル前" +String.valueOf(disp));//TODO kesu
+        Bukkit.getLogger().info("シャッフル前" + disp);//TODO kesu
         Collections.shuffle(RedApple.gamePlayer);
-        List<String> disp2 = new ArrayList<String>();
+        List<String> disp2 = new ArrayList<>();
         for(Player pl:RedApple.gamePlayer){
             disp2.add(pl.getName());
         }
-        Bukkit.getLogger().info("シャッフル後" +String.valueOf(disp2));//TODO kesu
+        Bukkit.getLogger().info("シャッフル後" + disp2);//TODO kesu
         for(int i=0; i<RedApple.quaGamePlayer; i++){
             RedApple.playerBox[i][1] = String.valueOf(disp2.get(i));
         }
@@ -68,15 +66,15 @@ public class SystemMain implements Listener {
             p.sendMessage(RedApple.separateBar);
             p.sendMessage("全ターンが終了しました");
             p.sendMessage("結果は次のようになりました");
-            p.sendMessage("　");
+            p.sendMessage(" ");
         }
         for(int i=0; i<RedApple.quaGamePlayer; i++){
             for(Player pl:Bukkit.getOnlinePlayers()){
-                pl.sendMessage(""+ChatColor.DARK_BLUE+ChatColor.BOLD+RedApple.playerBox[i][0]+ChatColor.WHITE+" - "+ChatColor.DARK_RED+ChatColor.BOLD+RedApple.playerBox[1][2]+ChatColor.WHITE+" 億円 - "+ChatColor.GOLD+RedApple.playerBox[i][1]);
+                pl.sendMessage("  "+ChatColor.GREEN+ChatColor.BOLD+RedApple.playerBox[i][0]+ChatColor.WHITE+" - "+ChatColor.DARK_RED+ChatColor.BOLD+RedApple.playerBox[1][2]+ChatColor.WHITE+" 億円 - "+ChatColor.GOLD+RedApple.playerBox[i][1]);
             }
         }
         for(Player p:Bukkit.getOnlinePlayers()){
-            p.sendMessage("　");
+            p.sendMessage(" ");
             p.sendMessage("以上でゲームを終了します");
             p.sendMessage(RedApple.separateBar);
         }
@@ -85,8 +83,8 @@ public class SystemMain implements Listener {
 
     public static void resetGame(){
         RedApple.gameStatus = false;
-        RedApple.siturakuChoise = false;
-        RedApple.gamePlayer = new ArrayList<Player>();
+        RedApple.siturakuChoice = false;
+        RedApple.gamePlayer = new ArrayList<>();
         RedApple.phase = 1;
         RedApple.quaGamePlayer = 0;
         Vote.resetVote();

@@ -2,15 +2,11 @@ package com.github.shima710.redapple;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Vote implements Listener {
@@ -29,7 +25,7 @@ public class Vote implements Listener {
             }
         }
         if(!RedApple.exiSituraku){
-            if(RedApple.phase!=RedApple.maxPhase){
+            if(RedApple.phase!=RedApple.maxPhase+1){
                 resetVote();
                 for(Player pl:Bukkit.getOnlinePlayers()){
                     pl.sendTitle("Phase" + n,"投票",40,60,40);
@@ -149,33 +145,67 @@ public class Vote implements Listener {
                 for(Player p:Bukkit.getOnlinePlayers()){
                     p.sendMessage("金のりんごがより多くの票を集めました");
                     p.sendMessage("金のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage("銀のりんご投票者は"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円を失います");
                     p.sendMessage(RedApple.separateBar);
                 }
                 changeMoney(RedApple.voteGold,1,true);
+                changeMoney(RedApple.voteSilver,1,false);
             }
             else {
                 for(Player p:Bukkit.getOnlinePlayers()){
                     p.sendMessage("銀のりんごがより多くの票を集めました");
                     p.sendMessage("銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage("金のりんご投票者は"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円を失います");
                     p.sendMessage(RedApple.separateBar);
                 }
                 changeMoney(RedApple.voteSilver,1,true);
+                changeMoney(RedApple.voteGold,1,false);
             }
         }
         else{
             if(RedApple.quaVoteRed == 1){
                 for(Player p:Bukkit.getOnlinePlayers()){
                     p.sendMessage("真実の赤りんごの得票数が1でした");
+                    p.sendMessage("金のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage("銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
                     p.sendMessage("真実の赤りんご投票者は"+ChatColor.DARK_RED+ChatColor.BOLD+" 10 "+ChatColor.WHITE+"億円を失います");
                     p.sendMessage(RedApple.separateBar);
                 }
+                changeMoney(RedApple.voteGold,1,true);
+                changeMoney(RedApple.voteSilver,1,true);
                 changeMoney(RedApple.voteRed,10,false);
             }
-            else if(RedApple.quaVoteGold == RedApple.quaVoteSilver){
+            else if(RedApple.quaVoteGold == 1 && RedApple.quaVoteSilver == 0){
                 for(Player p:Bukkit.getOnlinePlayers()){
-                    p.sendMessage("引き分けです");
+                    p.sendMessage("一人のみが金のりんごへ，その他全員は真実の赤りんごへ投票しました");
+                    p.sendMessage("金のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 2 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage("真実の赤りんご投票者は"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円を失います");
                     p.sendMessage(RedApple.separateBar);
                 }
+                changeMoney(RedApple.voteGold,2, true);
+                changeMoney(RedApple.voteRed,1, false);
+            }
+            else if(RedApple.quaVoteSilver == 1 && RedApple.quaVoteGold == 0){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("一人のみが銀のりんごへ，その他全員は真実の赤りんごへ投票しました");
+                    p.sendMessage("銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 2 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage("真実の赤りんご投票者は"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円を失います");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteSilver,2, true);
+                changeMoney(RedApple.voteRed,1, false);
+            }
+            else if(RedApple.quaVoteGold+RedApple.quaVoteSilver >= 2){
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage("銀のりんごの得票数が2以上でした");
+                    p.sendMessage("金のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage("銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
+                    p.sendMessage("真実の赤りんご投票者は"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円を失います");
+                    p.sendMessage(RedApple.separateBar);
+                }
+                changeMoney(RedApple.voteGold,1,true);
+                changeMoney(RedApple.voteSilver,1, true);
+                changeMoney(RedApple.voteRed,1,false);
             }
             else if(RedApple.quaVoteRed == RedApple.quaVoted){
                 for(Player p:Bukkit.getOnlinePlayers()){
@@ -184,43 +214,6 @@ public class Vote implements Listener {
                     p.sendMessage(RedApple.separateBar);
                 }
                 changeMoney(RedApple.voteRed,1, true);
-            }
-            else if(RedApple.quaVoteGold == 1 && RedApple.quaVoteSilver == 0){
-                for(Player p:Bukkit.getOnlinePlayers()){
-                    p.sendMessage("一人のみが金のりんごへ，その他全員は真実の赤りんごへ投票しました");
-                    p.sendMessage("金のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 2 "+ChatColor.WHITE+"億円が与えられます");
-                    p.sendMessage(RedApple.separateBar);
-                }
-                changeMoney(RedApple.voteGold,2, true);
-            }
-            else if(RedApple.quaVoteSilver == 1 && RedApple.quaVoteGold == 0){
-                for(Player p:Bukkit.getOnlinePlayers()){
-                    p.sendMessage("一人のみが銀のりんごへ，その他全員は真実の赤りんごへ投票しました");
-                    p.sendMessage("銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 2 "+ChatColor.WHITE+"億円が与えられます");
-                    p.sendMessage(RedApple.separateBar);
-                }
-                changeMoney(RedApple.voteSilver,2, true);
-            }
-            else if(RedApple.quaVoteSilver < RedApple.quaVoteRed && RedApple.quaVoteGold < RedApple.quaVoteRed){
-                for(Player p:Bukkit.getOnlinePlayers()){
-                    p.sendMessage("真実の赤りんごがより多くの票を集めました");
-                    p.sendMessage("金・銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");
-                    p.sendMessage(RedApple.separateBar);
-                }
-                changeMoney(RedApple.voteSilver,1, true);
-                changeMoney(RedApple.voteGold,1, true);
-            }
-            else if(RedApple.quaVoteGold == RedApple.quaVoteRed){
-                for(Player p:Bukkit.getOnlinePlayers()){
-                    p.sendMessage("引き分けです");
-                    p.sendMessage(RedApple.separateBar);
-                }
-            }
-            else if(RedApple.quaVoteSilver == RedApple.quaVoteRed){
-                for(Player p:Bukkit.getOnlinePlayers()){
-                    p.sendMessage("引き分けです");
-                    p.sendMessage(RedApple.separateBar);
-                }
             }
             else{
                 for(Player p:Bukkit.getOnlinePlayers()){

@@ -2,14 +2,12 @@ package com.github.shima710.redapple;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 public class Timer extends BukkitRunnable{
     private final RedApple plg;
     private int count;
-    private Boolean expBar;
+    private final Boolean expBar;
 
     /**
      * コンストラクタ

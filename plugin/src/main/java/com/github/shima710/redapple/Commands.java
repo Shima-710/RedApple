@@ -1,6 +1,5 @@
 package com.github.shima710.redapple;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,7 +27,7 @@ public class Commands implements CommandExecutor {
                     }
                     if(isNumeric){
                         int gaku = Integer.parseInt(str);
-                        if(RedApple.siturakuChoise){
+                        if(RedApple.siturakuChoice){
                             Situraku.kyuusai(player,RedApple.siturakuWho,gaku);
                             return true;
                         }
@@ -53,7 +52,7 @@ public class Commands implements CommandExecutor {
             }
         }
         else if (cmd.getName().equalsIgnoreCase("s")) {
-            if(RedApple.siturakuChoise){
+            if(RedApple.siturakuChoice){
                 Situraku.goSituraku(RedApple.siturakuWho);
                 return true;
             }
