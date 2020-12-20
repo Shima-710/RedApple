@@ -38,15 +38,17 @@ public class SystemMain implements Listener {
         for(Player pl:RedApple.gamePlayer){
             disp.add(pl.getName());
         }
+        Bukkit.getLogger().info("シャッフル前" +String.valueOf(disp));//TODO kesu
         Collections.shuffle(RedApple.gamePlayer);
         List<String> disp2 = new ArrayList<String>();
         for(Player pl:RedApple.gamePlayer){
             disp2.add(pl.getName());
         }
+        Bukkit.getLogger().info("シャッフル後" +String.valueOf(disp2));//TODO kesu
         for(int i=0; i<RedApple.quaGamePlayer; i++){
             RedApple.playerBox[i][1] = String.valueOf(disp2.get(i));
         }
-        Bukkit.getLogger().info(""+ Arrays.deepToString(RedApple.playerBox));//TODO kesu
+        Bukkit.getLogger().info("playerBox"+ Arrays.deepToString(RedApple.playerBox));//TODO kesu
         for(Player p:Bukkit.getOnlinePlayers()){
             p.sendMessage(RedApple.separateBar);
             p.sendMessage("参加者は");
@@ -65,7 +67,7 @@ public class SystemMain implements Listener {
         for(Player p:Bukkit.getOnlinePlayers()){
             p.sendMessage(RedApple.separateBar);
             p.sendMessage("全ターンが終了しました");
-            p.sendMessage("試合結果は次のようになりました");
+            p.sendMessage("結果は次のようになりました");
             p.sendMessage("　");
         }
         for(int i=0; i<RedApple.quaGamePlayer; i++){

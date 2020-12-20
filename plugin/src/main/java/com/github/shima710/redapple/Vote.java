@@ -153,7 +153,7 @@ public class Vote implements Listener {
                 }
                 changeMoney(RedApple.voteGold,1,true);
             }
-            else {//FIXME always true? ma?　あ，この上までで条件分岐させてるから？あたまよ？
+            else {
                 for(Player p:Bukkit.getOnlinePlayers()){
                     p.sendMessage("銀のりんごがより多くの票を集めました");
                     p.sendMessage("銀のりんご投票者に"+ChatColor.DARK_RED+ChatColor.BOLD+" 1 "+ChatColor.WHITE+"億円が与えられます");

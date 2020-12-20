@@ -42,10 +42,11 @@ public class Event implements Listener {
     public void onRightClick(PlayerInteractEvent e){
         if(RedApple.gameStatus) {
             Player player = e.getPlayer();
-            Block block = e.getClickedBlock(); //FIXME:NullPointerException
-            assert block != null;
-            if(block.getType().equals(Material.DIAMOND_ORE)){
-                Vote.openVoteBox(player);
+            if(e.getClickedBlock()!=null){
+                Block block = e.getClickedBlock();
+                if(block.getType().equals(Material.DIAMOND_ORE)){
+                    Vote.openVoteBox(player);
+                }
             }
         }
     }

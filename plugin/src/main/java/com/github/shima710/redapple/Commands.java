@@ -30,32 +30,37 @@ public class Commands implements CommandExecutor {
                         int gaku = Integer.parseInt(str);
                         if(RedApple.siturakuChoise){
                             Situraku.kyuusai(player,RedApple.siturakuWho,gaku);
+                            return true;
                         }
                         else{
                             sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "救済対象者がいません");
+                            return false;
                         }
                     }
                     else {
                         sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "数値を正しく入力してください");
+                        return false;
                     }
                 }
                 else{
                     sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "数値を正しく入力してください");
+                    return false;
                 }
             }
             else {
                 sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "コンソールからは実行できません");
+                return false;
             }
-            return true;
         }
         else if (cmd.getName().equalsIgnoreCase("s")) {
             if(RedApple.siturakuChoise){
                 Situraku.goSituraku(RedApple.siturakuWho);
+                return true;
             }
             else{
                 sender.sendMessage(ChatColor.RED + ">ERROR" + ChatColor.WHITE + "対象者がいません");
+                return false;
             }
-            return true;
         }
         return false;
     }
