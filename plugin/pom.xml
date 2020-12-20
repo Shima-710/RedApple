@@ -6,7 +6,7 @@
 
     <groupId>com.github.shima-710</groupId>
     <artifactId>RedApple</artifactId>
-    <version>3.0.1</version>
+    <version>3.1.0</version>
     <packaging>jar</packaging>
 
     <name>RedApple</name>
