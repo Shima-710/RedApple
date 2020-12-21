@@ -26,7 +26,6 @@ public class SystemMain implements Listener {
             if(p.getGameMode().equals(GameMode.ADVENTURE) || p.getGameMode().equals(GameMode.SURVIVAL)) {
                 p.setGameMode(GameMode.ADVENTURE);
                 RedApple.gamePlayer.add(p);
-                RedApple.quaGamePlayer++;
             }else{
                 p.setGameMode(GameMode.SPECTATOR);
             }
@@ -47,37 +46,29 @@ public class SystemMain implements Listener {
             RedApple.playerBox[i][1] = String.valueOf(disp2.get(i));
         }
         Bukkit.getLogger().info("playerBox"+ Arrays.deepToString(RedApple.playerBox));//TODO kesu
-        for(Player p:Bukkit.getOnlinePlayers()){
-            p.sendMessage(RedApple.separateBar);
-            p.sendMessage("参加者は");
-            p.sendMessage(ChatColor.BOLD+String.valueOf(disp));
-            p.sendMessage("計 "+ChatColor.DARK_RED+RedApple.quaGamePlayer+ChatColor.WHITE+" 人です");
-            p.sendMessage(RedApple.separateBar);
-            p.sendMessage(" "+ChatColor.DARK_RED+RedApple.prepareTime+ChatColor.WHITE+" 秒後に最初の投票が始まります");
-            p.sendMessage(RedApple.separateBar);
-        }
+        Bukkit.broadcastMessage(RedApple.separateBar);
+        Bukkit.broadcastMessage("参加者は");
+        Bukkit.broadcastMessage(ChatColor.BOLD+String.valueOf(disp));
+        Bukkit.broadcastMessage("計 "+ChatColor.DARK_RED+RedApple.quaGamePlayer+ChatColor.WHITE+" 人です");
+        Bukkit.broadcastMessage(RedApple.separateBar);
+        Bukkit.broadcastMessage(" "+ChatColor.DARK_RED+RedApple.prepareTime+ChatColor.WHITE+" 秒後に最初の投票が始まります");
+        Bukkit.broadcastMessage(RedApple.separateBar);
         refreshSidebar();
         RedApple.preparing = true;
         new Timer(plugin,RedApple.prepareTime,true).runTaskTimer(plugin, 10,20);
     }
 
     public static void gameEnd(){
-        for(Player p:Bukkit.getOnlinePlayers()){
-            p.sendMessage(RedApple.separateBar);
-            p.sendMessage("全ターンが終了しました");
-            p.sendMessage("結果は次のようになりました");
-            p.sendMessage(" ");
-        }
+        Bukkit.broadcastMessage(RedApple.separateBar);
+        Bukkit.broadcastMessage("全ターンが終了しました");
+        Bukkit.broadcastMessage("結果は次のようになりました");
+        Bukkit.broadcastMessage(" ");
         for(int i=0; i<RedApple.quaGamePlayer; i++){
-            for(Player pl:Bukkit.getOnlinePlayers()){
-                pl.sendMessage("  "+ChatColor.GREEN+ChatColor.BOLD+RedApple.playerBox[i][0]+ChatColor.WHITE+" - "+ChatColor.DARK_RED+ChatColor.BOLD+RedApple.playerBox[1][2]+ChatColor.WHITE+" 億円 - "+ChatColor.GOLD+RedApple.playerBox[i][1]);
-            }
+            Bukkit.broadcastMessage("  "+ChatColor.GREEN+ChatColor.BOLD+RedApple.playerBox[i][0]+ChatColor.WHITE+" - "+ChatColor.DARK_RED+ChatColor.BOLD+RedApple.playerBox[1][2]+ChatColor.WHITE+" 億円 - "+ChatColor.GOLD+RedApple.playerBox[i][1]);
         }
-        for(Player p:Bukkit.getOnlinePlayers()){
-            p.sendMessage(" ");
-            p.sendMessage("以上でゲームを終了します");
-            p.sendMessage(RedApple.separateBar);
-        }
+        Bukkit.broadcastMessage(" ");
+        Bukkit.broadcastMessage("以上でゲームを終了します");
+        Bukkit.broadcastMessage(RedApple.separateBar);
         resetGame();
     }
 
