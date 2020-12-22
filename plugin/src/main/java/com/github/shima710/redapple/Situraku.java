@@ -14,7 +14,9 @@ public class Situraku implements Listener {
         for(int i=0;i<RedApple.quaGamePlayer;i++){//playerBox内でfor
             if(RedApple.playerBox[i][1].equals(player.getName())){//playerBox内で名前が一致する箱を見つけたら
                 if(Integer.parseInt(RedApple.playerBox[i][2])<=-5){//-5以下なら
-                    return true;
+                    if(!RedApple.situraku.contains(player)){//失楽園にいないければ
+                        return true;
+                    }
                 }
             }
         }

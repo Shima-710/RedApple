@@ -255,7 +255,6 @@ public class Vote implements Listener {
         RedApple.voteRed = new ArrayList<>();
         RedApple.voteSilver = new ArrayList<>();
         RedApple.voteGold = new ArrayList<>();
-        RedApple.situraku = new ArrayList<>();
         RedApple.voting = false;
         RedApple.finAllVote = false;
         RedApple.quaVoted = 0;
