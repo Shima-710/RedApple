@@ -9,9 +9,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public final class RedApple extends JavaPlugin{
     public static RedApple plugin = null;
@@ -19,7 +17,8 @@ public final class RedApple extends JavaPlugin{
 
     public static final String[] alp = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
     public static final String separateBar = "===================================================";
-    public static String[][] playerBox = new String[26][];
+    //public static String[][] playerBox = new String[26][];
+    public static Map<Player,List<String>> playerMapBox = new HashMap<>();
     public static Boolean gameStatus = false;
     public static Boolean siturakuChoice = false;
     public static Boolean exiSituraku = false;
@@ -51,13 +50,7 @@ public final class RedApple extends JavaPlugin{
     public static Objective objective;
 
 
-    public static void makePlayerBox(){
-        for(int i=0; i<26; i++){
-            playerBox[i] = new String[3];
-            playerBox[i][0] = RedApple.alp[i];
-            playerBox[i][2] = "0";
-        }
-    }
+
 
 
     @Override

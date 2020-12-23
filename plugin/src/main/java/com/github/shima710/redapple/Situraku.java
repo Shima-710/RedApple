@@ -11,12 +11,10 @@ public class Situraku implements Listener {
     public Situraku(RedApple instance) { plugin = instance; }
 
     public static boolean checkSituraku(Player player){
-        for(int i=0;i<RedApple.quaGamePlayer;i++){//playerBox内でfor
-            if(RedApple.playerBox[i][1].equals(player.getName())){//playerBox内で名前が一致する箱を見つけたら
-                if(Integer.parseInt(RedApple.playerBox[i][2])<=-5){//-5以下なら
-                    if(!RedApple.situraku.contains(player)){//失楽園にいないければ
-                        return true;
-                    }
+        for(Player p:RedApple.gamePlayer){
+            if(Integer.parseInt(RedApple.playerMapBox.get(p).get(1)) <= -5){//playerでgetしてlistのindex=1が-5以下なら
+                if(!RedApple.situraku.contains(p)) {//失楽園にいないければ
+                    return true;
                 }
             }
         }
@@ -40,16 +38,13 @@ public class Situraku implements Listener {
         Bukkit.broadcastMessage(""+ChatColor.DARK_RED+ChatColor.BOLD+player2.getName()+ChatColor.WHITE+" は "+ChatColor.DARK_BLUE+ChatColor.BOLD+player.getName()+ChatColor.WHITE+"によって救済されました");
         Bukkit.broadcastMessage("救済額は "+ChatColor.DARK_RED+ChatColor.BOLD+num+" 億円です");
         Bukkit.broadcastMessage(RedApple.separateBar);
-        for(int i=0;i<26;i++){//playerBox内でfor
-            if(RedApple.playerBox[i][1].equals(player.getName())){//playerBox内で名前が一致する箱を見つけたら
-                int nm = Integer.parseInt(RedApple.playerBox[i][2]);//nm=now money をplayerBox[任意位置][所持金]
-                RedApple.playerBox[i][2] = String.valueOf(nm - num);//所持金更新
-            }
-            else if(RedApple.playerBox[i][1].equals(player2.getName())){//playerBox内で名前が一致する箱を見つけたら
-                int nm = Integer.parseInt(RedApple.playerBox[i][2]);//nm=now money をplayerBox[任意位置][所持金]
-                RedApple.playerBox[i][2] = String.valueOf(nm + num);//所持金更新
-            }
-        }
+
+        int nmp1 = Integer.parseInt(RedApple.playerMapBox.get(player).get(1));//player1の現在の所持金をnmp1に
+        RedApple.playerMapBox.get(player).set(1,String.valueOf(nmp1 - num));//numを引いてset
+
+        int nmp2 = Integer.parseInt(RedApple.playerMapBox.get(player2).get(1));
+        RedApple.playerMapBox.get(player2).set(1,String.valueOf(nmp2 - num));
+
         SystemMain.refreshSidebar();
         Vote.phaseVote(RedApple.phase);
     }

@@ -202,16 +202,11 @@ public class Vote implements Listener {
     public static void changeMoney(List<Player> list, int money,Boolean add){
         for(Player p:RedApple.gamePlayer){//ゲームプレイヤー全員でfor
             if(list.contains(p)){//そいつが指定のリストにいれば
-                for(int i=0;i<RedApple.quaGamePlayer;i++){//playerBox内でfor
-                    if(RedApple.playerBox[i][1].equals(p.getName())){//playerBox内で名前が一致する箱を見つけたら
-                        int nm = Integer.parseInt(RedApple.playerBox[i][2]);//nm=now money をplayerBox[任意位置][所持金]
-                        if(add){
-                            RedApple.playerBox[i][2] = String.valueOf(nm + money);//所持金更新
-                        }
-                        else{
-                            RedApple.playerBox[i][2] = String.valueOf(nm - money);//所持金更新
-                        }
-                    }
+                int nm = Integer.parseInt(RedApple.playerMapBox.get(p).get(1));//playerの現在の所持金をnmに
+                if(add) {
+                    RedApple.playerMapBox.get(p).set(1, String.valueOf(nm + money));//足し引きしてset
+                } else {
+                    RedApple.playerMapBox.get(p).set(1, String.valueOf(nm - money));
                 }
             }
         }
