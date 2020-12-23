@@ -18,7 +18,7 @@ public class Commands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (args.length == 1) {
-                    if(args[0].matches("¥d")){
+                    if(args[0].matches("[0-9]{1}") || args[0].matches("[0-9]{2}")){
                         int gaku = Integer.parseInt(args[0]);
                         if(RedApple.siturakuChoice){
                             Situraku.kyuusai(player,RedApple.siturakuWho,gaku);

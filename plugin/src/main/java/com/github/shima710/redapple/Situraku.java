@@ -43,7 +43,7 @@ public class Situraku implements Listener {
         RedApple.playerMapBox.get(player).set(1,String.valueOf(nmp1 - num));//numを引いてset
 
         int nmp2 = Integer.parseInt(RedApple.playerMapBox.get(player2).get(1));
-        RedApple.playerMapBox.get(player2).set(1,String.valueOf(nmp2 - num));
+        RedApple.playerMapBox.get(player2).set(1,String.valueOf(nmp2 + num));
 
         SystemMain.refreshSidebar();
         Vote.phaseVote(RedApple.phase);
