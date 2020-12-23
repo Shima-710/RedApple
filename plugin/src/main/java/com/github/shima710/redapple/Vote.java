@@ -251,10 +251,10 @@ public class Vote implements Listener {
     }
 
     public static void resetVote(){
-        RedApple.voted = new ArrayList<>();
-        RedApple.voteRed = new ArrayList<>();
-        RedApple.voteSilver = new ArrayList<>();
-        RedApple.voteGold = new ArrayList<>();
+        RedApple.voted.clear();
+        RedApple.voteRed.clear();
+        RedApple.voteSilver.clear();
+        RedApple.voteGold.clear();
         RedApple.voting = false;
         RedApple.finAllVote = false;
         RedApple.quaVoted = 0;

@@ -75,8 +75,8 @@ public class SystemMain implements Listener {
     public static void resetGame(){
         RedApple.gameStatus = false;
         RedApple.siturakuChoice = false;
-        RedApple.situraku = new ArrayList<>();
-        RedApple.gamePlayer = new ArrayList<>();
+        RedApple.situraku.clear();
+        RedApple.gamePlayer.clear();
         RedApple.phase = 1;
         RedApple.quaGamePlayer = 0;
         Vote.resetVote();

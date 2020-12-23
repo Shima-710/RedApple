@@ -18,15 +18,8 @@ public class Commands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (args.length == 1) {
-                    String str = args[0];
-                    boolean isNumeric = true;
-                    for (int i = 0; i < str.length(); i++) {
-                        if (!Character.isDigit(str.charAt(i))) {
-                            isNumeric = false;
-                        }
-                    }
-                    if(isNumeric){
-                        int gaku = Integer.parseInt(str);
+                    if(args[0].matches("¥d")){
+                        int gaku = Integer.parseInt(args[0]);
                         if(RedApple.siturakuChoice){
                             Situraku.kyuusai(player,RedApple.siturakuWho,gaku);
                             return true;
