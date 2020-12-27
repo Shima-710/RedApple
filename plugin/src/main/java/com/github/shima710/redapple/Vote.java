@@ -71,7 +71,7 @@ public class Vote implements Listener {
                     player.sendMessage(ChatColor.GREEN + ">GAME " + ChatColor.WHITE + "金のりんごへ投票しました");
                     break;
             }
-            RedApple.yetVote = RedApple.quaGamePlayer - RedApple.quaVoted;
+            RedApple.yetVote = RedApple.quaGamePlayer - RedApple.quaVoted - RedApple.situraku.size();
             if(RedApple.yetVote==0){
                 RedApple.voting = false;
                 RedApple.finAllVote = true;
